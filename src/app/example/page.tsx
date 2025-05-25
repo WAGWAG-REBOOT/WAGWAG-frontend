@@ -1,10 +1,11 @@
 import '@/styles/main.scss';
 import EditSvg from "@/assets/images/Edit.svg";
 import StatCard from "@/components/molecules/StatCard";
+import Contribution from '@/components/molecules/Contibution';
 
 export default function ExamplePage() {
   return (
-    <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
+    <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto', backgroundColor: 'black' }}>
       <h1 className="text-primary" style={{ marginBottom: '20px' }}>디자인 시스템</h1>
       
       <div style={{ 
@@ -71,6 +72,8 @@ export default function ExamplePage() {
           />
 
           <StatCard variant="uploads" value={100} />
+
+          <Contribution percentage={37} />
         </div>
       </div>
     </div>

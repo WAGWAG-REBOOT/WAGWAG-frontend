@@ -4,3 +4,4 @@ export * from "./Modal";
 export * from "./Menu/ProfileMenuButton";
 export * from "./VideoCard";
 export * from "./VideoInfo";
+export { default as Contribution } from "./Contibution";

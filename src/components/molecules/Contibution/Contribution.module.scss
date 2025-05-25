@@ -1,0 +1,25 @@
+@use "../../../styles/abstracts/variables" as *;
+@use "../../../styles/abstracts/mixins" as *;
+
+.contributionContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.contributionHeader {
+  display: flex;
+  align-items: center;
+
+  h1 {
+    @include font("text-wag");
+    color: $white-color;
+    margin-left: 11.25px;
+    margin-right: 3px;
+  }
+
+  svg {
+    flex-shrink: 0;
+  }
+}
