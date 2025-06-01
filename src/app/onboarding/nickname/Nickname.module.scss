@@ -1,15 +1,16 @@
 @use "../../../styles/abstracts/variables" as *;
 @use "../../../styles/abstracts/mixins" as *;
 
-.logoWrapper {
+// .logoWrapper {
+//   width: 13.3rem;
+//   height: 2.2rem;
+// }
+.wagLogo {
   position: fixed;
   top: 5rem;
   left: 5rem;
   width: 13.3rem;
   height: 2.2rem;
-}
-.wagLogo {
-  object-fit: cover;
 }
 .container {
   width: 100%;
@@ -48,7 +49,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid white;
+  border: 1px solid $white-color;
   cursor: pointer;
   overflow: hidden;
   transition: all 0.3s ease;
@@ -60,20 +61,18 @@
       opacity: 1;
     }
   }
+  &.active {
+    border: none;
+  }
 }
 
 .profileImage {
-  width: 12.2rem;
-  height: 12.2rem;
   object-fit: cover;
   border-radius: 50%;
 }
-.defaultProfileImage {
+.defaultImage {
   padding: 0.5rem;
-  width: 50%;
-  height: 50%;
 }
-
 .imageOverlay {
   position: absolute;
   top: 0;
