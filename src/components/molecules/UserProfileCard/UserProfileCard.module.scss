@@ -1,0 +1,84 @@
+@use "../../../styles/abstracts/variables" as *;
+@use "../../../styles/abstracts/mixins" as *;
+
+.userProfileCard {
+  background-color: $gray-600;
+  border: 1px solid $gray-300;
+  border-radius: 20px;
+  padding: 53.25px 40px 35.75px 40px;
+  min-width: 312px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: $white-color;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.profileImageContainer {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 12.75px;
+  background-color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profileImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.defaultProfileIcon {
+  width: 40px;
+  height: 40px;
+  color: #666;
+}
+
+.username {
+  @include font("text-lg");
+  margin-bottom: 27.25px;
+  color: $white-color;
+  font-weight: 600;
+}
+
+.email {
+  @include font("text-sm");
+  color: $gray-200;
+  margin-bottom: 30px;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: $gray-300;
+  margin-bottom: 32.5px;
+}
+
+.locationContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 66.75px;
+}
+
+.locationIcon {
+  width: 20px;
+  height: 16px;
+  color: #666;
+}
+
+.location {
+  @include font("text-wag");
+  color: $green-color;
+  font-weight: 600;
+}
+
+.joinDate {
+  @include font("text-sm");
+  color: $gray-200;
+} 

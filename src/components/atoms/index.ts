@@ -11,3 +11,4 @@ export * from "./Profile/ProfileImage";
 export * from "./Video/LikeCount";
 export * from "./Video/Nickname";
 export * from "./Video/ViewCount";
+export { default as ProgressBar } from "./ProgressBar";

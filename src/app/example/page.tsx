@@ -1,9 +1,10 @@
 import '@/styles/main.scss';
 import EditSvg from "@/assets/images/Edit.svg";
+import { StatCard, Contribution, UserProfileCard } from "@/components/molecules";
 
 export default function ExamplePage() {
   return (
-    <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
+    <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto', backgroundColor: 'black' }}>
       <h1 className="text-primary" style={{ marginBottom: '20px' }}>디자인 시스템</h1>
       
       <div style={{ 
@@ -49,7 +50,6 @@ export default function ExamplePage() {
         기본 버튼
       </button>
 
-
       <div style={{ margin: '40px 0' }}>
         <h2>SVG 직접 임포트 사용 예제</h2>
         <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
@@ -68,6 +68,17 @@ export default function ExamplePage() {
             height={48} 
             fill="blue"
             style={{ opacity: 0.7 }}
+          />
+
+          <StatCard variant="uploads" value={100} />
+
+          <Contribution percentage={37} />
+
+          <UserProfileCard
+            userName="waggle"
+            email="LGU+frontend@gmail.com"
+            location="서대문구 대현동"
+            joinDate="2024. 08. 11"
           />
         </div>
       </div>
