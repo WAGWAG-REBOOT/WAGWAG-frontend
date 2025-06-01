@@ -5,7 +5,7 @@ import { ProgressBar } from "@/components/atoms";
 import styles from "./Contribution.module.scss";
 import { ContributionProps } from "./Contribution.types";
 
-const Contribution: React.FC<ContributionProps> = ({
+export const Contribution: React.FC<ContributionProps> = ({
   percentage,
   title = "나의 지역 순위 기여도",
   className = "",
@@ -22,5 +22,3 @@ const Contribution: React.FC<ContributionProps> = ({
     </div>
   );
 };
-
-export default Contribution; 

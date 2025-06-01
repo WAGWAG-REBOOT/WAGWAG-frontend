@@ -1,7 +1,6 @@
 import '@/styles/main.scss';
 import EditSvg from "@/assets/images/Edit.svg";
-import StatCard from "@/components/molecules/StatCard";
-import Contribution from '@/components/molecules/Contibution';
+import { StatCard, Contribution, UserProfileCard } from "@/components/molecules";
 
 export default function ExamplePage() {
   return (
@@ -74,6 +73,13 @@ export default function ExamplePage() {
           <StatCard variant="uploads" value={100} />
 
           <Contribution percentage={37} />
+
+          <UserProfileCard
+            userName="waggle"
+            email="LGU+frontend@gmail.com"
+            location="서대문구 대현동"
+            joinDate="2024. 08. 11"
+          />
         </div>
       </div>
     </div>

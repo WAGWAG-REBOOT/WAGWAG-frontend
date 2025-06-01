@@ -24,7 +24,7 @@ const variantMap = {
   },
 };
 
-const StatCard = ({ variant, value }: StatCardProps) => {
+export const StatCard = ({ variant, value }: StatCardProps) => {
   return (
     <div className={styles.statCardContainer}>
       <p className={styles.label}>
@@ -43,5 +43,3 @@ const StatCard = ({ variant, value }: StatCardProps) => {
     </div>
   );
 }
-
-export default StatCard;  
