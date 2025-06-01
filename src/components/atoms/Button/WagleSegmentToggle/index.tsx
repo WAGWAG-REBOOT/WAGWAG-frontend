@@ -5,10 +5,10 @@ interface WagleSegmentToggleProps {
   onChange: (mode: "popular" | "all") => void;
 }
 
-export default function WagleSegmentToggle({
+export const WagleSegmentToggle = ({
   mode,
   onChange,
-}: WagleSegmentToggleProps) {
+}: WagleSegmentToggleProps) => {
   {
     /* 이렇게 사용하세요~ */
     /* const [mode, setMode] = useState<"popular" | "all">("popular")

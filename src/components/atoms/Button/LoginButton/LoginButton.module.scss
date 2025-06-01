@@ -3,12 +3,14 @@
 
 .button {
   @include font(title-md);
+  height: 6.7rem;
+  width: 52rem;
+  justify-content: center;
   position: relative;
   display: flex;
   align-items: center;
   background-color: rgba($gray-600, 0.3);
   color: $gray-200;
-  padding: 2rem 19rem;
   border: 1px solid $gray-300;
   border-radius: 1.5rem;
   cursor: pointer;

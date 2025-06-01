@@ -6,3 +6,9 @@
   background-position: center;
   background-repeat: no-repeat;
 }
+.stepcontainer {
+  position: fixed;
+  bottom: 7.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+}

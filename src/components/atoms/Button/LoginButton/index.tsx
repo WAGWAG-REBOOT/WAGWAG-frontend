@@ -1,16 +1,27 @@
 import { ButtonProps } from "../Button.types";
 import styles from "./LoginButton.module.scss";
 
-export default function LoginButton({
+interface LoginButtonProps extends Omit<ButtonProps, "onClick"> {
+  provider: "google" | "naver";
+  onClick: (provider: "google" | "naver") => void;
+}
+
+export const LoginButton = ({
   children,
+  provider,
   onClick,
   disabled,
-}: ButtonProps) {
-  //이렇게 가져다 쓰세요~
+}: LoginButtonProps) => {
+  const logoSrc = provider === "google" ? "/googleLogo.svg" : "/naverLogo.svg";
+
   return (
-    <button className={styles.button} onClick={onClick} disabled={disabled}>
-      <img src="/googleLogo.svg" alt="" className={styles.icon} />
+    <button
+      className={styles.button}
+      onClick={() => onClick(provider)}
+      disabled={disabled}
+    >
+      <img src={logoSrc} alt={`${provider} logo`} className={styles.icon} />
       <span className={styles.text}>{children}</span>
     </button>
   );
-}
+};

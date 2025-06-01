@@ -5,12 +5,12 @@ interface CategoryButtonProps extends ButtonProps {
   isSelected: boolean;
 }
 
-export default function CategorySelectButton({
+export const CategorySelectButton = ({
   children,
   onClick,
   disabled,
   isSelected,
-}: CategoryButtonProps) {
+}: CategoryButtonProps) => {
   //이렇게 가져다 쓰세요~
   return (
     <button
@@ -21,4 +21,4 @@ export default function CategorySelectButton({
       {children}
     </button>
   );
-}
+};

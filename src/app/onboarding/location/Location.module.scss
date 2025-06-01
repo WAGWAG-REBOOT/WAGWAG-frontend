@@ -1,3 +1,6 @@
+@use "../../../styles/abstracts/variables" as *;
+@use "../../../styles/abstracts/mixins" as *;
+
 .container {
   width: 100%;
   height: 100vh;
@@ -5,4 +8,189 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  text-align: center;
+}
+
+.wagLogo {
+  position: fixed;
+  top: 5rem;
+  left: 5rem;
+  width: 13.3rem;
+}
+
+.guideText {
+  @include font(title-sm);
+  padding-top: 17.5rem;
+  color: $white-color;
+  margin-bottom: 1.1rem;
+}
+
+.helperText {
+  @include font(text-md);
+  color: $gray-200;
+  margin-bottom: 6rem;
+  .highlight {
+    color: $green-color;
+  }
+}
+
+.actionButton {
+  position: fixed;
+  bottom: 14.7rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.stepcontainer {
+  position: fixed;
+  bottom: 7.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.columns01 {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.wrapper {
+  display: flex;
+  gap: 4rem;
+  justify-content: center;
+}
+
+.columns02 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 11rem;
+}
+
+.seoultext {
+  @include font(title-sm);
+  color: $white-color;
+  margin-top: 2.6rem;
+}
+
+.line {
+  background-color: $gray-400;
+  width: 1.5px;
+  height: auto;
+}
+
+.guList {
+  width: 40.9rem;
+  padding-right: 4rem;
+  overflow-x: hidden;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-height: 28.4rem;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 0.45rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $gray-200;
+    border-radius: 2px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: $gray-400;
+  }
+}
+.dongList {
+  padding-right: 1rem;
+  align-content: start;
+  width: 45rem;
+  grid-template-rows: auto;
+  grid-auto-rows: 4.65rem;
+  max-height: calc((4.65rem * 3) + (1.5rem * 3));
+  overflow-x: hidden;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 1.5rem;
+  max-height: 28.4rem;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 0.45rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $gray-200;
+    border-radius: 2px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: $gray-400;
+  }
+}
+
+.guButton {
+  @include font(text-button);
+  color: $gray-100;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 3rem;
+  cursor: pointer;
+  padding: 1.3rem 2.4rem;
+  justify-self: center;
+  &:hover {
+    color: $gray-100;
+  }
+
+  &.active {
+    background-color: rgba($gray-600, 0.3);
+    color: $green-color;
+    border: 1px solid $green-color;
+  }
+
+  &.active:hover {
+    color: $green-color;
+  }
+}
+.dongButton {
+  all: unset;
+  padding: 1.3rem 2rem;
+  @include font(text-button);
+  color: $gray-100;
+  border-radius: 3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  &:hover {
+    color: $gray-100;
+  }
+
+  &.active {
+    color: $green-color;
+  }
+
+  &.active:hover {
+    color: $green-color;
+  }
+}
+.sectiontitle {
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: $gray-200;
+  text-align: left;
+  grid-column: 1 / -1;
+  position: sticky;
+  top: 0;
+  background-color: transparent;
+  padding-bottom: 1.4rem;
+  background: linear-gradient(
+    to bottom,
+    rgba($gray-600, 1) 0%,
+    rgba($gray-600, 0.9) 40%,
+    rgba($gray-600, 0.8) 60%,
+    rgba($gray-600, 0.5) 80%,
+    rgba(0, 0, 0, 0) 100%
+  );
 }

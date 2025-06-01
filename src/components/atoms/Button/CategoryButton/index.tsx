@@ -5,12 +5,12 @@ interface CategoryButtonProps extends ButtonProps {
   isSelected: boolean;
 }
 
-export default function CategoryButton({
+export const CategoryButton = ({
   children,
   onClick,
   disabled,
   isSelected,
-}: CategoryButtonProps) {
+}: CategoryButtonProps) => {
   return (
     <button
       className={`${styles.button} ${isSelected ? styles.selected : ""}`}
@@ -20,4 +20,4 @@ export default function CategoryButton({
       {children}
     </button>
   );
-}
+};

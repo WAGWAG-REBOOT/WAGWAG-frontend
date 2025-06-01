@@ -6,11 +6,11 @@ interface VisibilityToggleButtonProps {
   disabled?: boolean;
 }
 
-export default function VisibilityToggleButton({
+export const VisibilityToggleButton = ({
   isPublic,
   onClick,
   disabled,
-}: VisibilityToggleButtonProps) {
+}: VisibilityToggleButtonProps) => {
   const iconSrc = isPublic ? "/unlockIcon.svg" : "/lockIcon.svg";
 
   //이렇게 가져다 쓰세요~

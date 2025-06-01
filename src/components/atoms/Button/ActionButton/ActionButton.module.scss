@@ -3,7 +3,7 @@
 
 .button {
   @include font(text-button);
-  background-color: rgba($white-color, 0.6);
+  background-color: rgba($white-color, 0.8);
   color: $gray-600;
   padding: 1.5rem 3.7rem;
   border: 1px solid $white-color;
