@@ -1,3 +1,13 @@
+@use "../../../styles/abstracts/variables" as *;
+@use "../../../styles/abstracts/mixins" as *;
+
+.wagLogo {
+  position: fixed;
+  top: 5rem;
+  left: 5rem;
+  width: 13.3rem;
+  height: 2.2rem;
+}
 .container {
   width: 100%;
   height: 100vh;
@@ -5,6 +15,102 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  text-align: center;
+}
+.wrapper {
+  width: 27rem;
+  height: auto;
+  margin: 0 auto;
+  padding-top: 10.8rem;
+}
+.guideText {
+  @include font(title-sm);
+  color: $white-color;
+  padding-top: 17.6rem;
+  margin-bottom: 1.1rem;
+}
+// 프로필 이미지 업로드 영역
+.profileImageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2.4rem;
+}
+
+.profileImageWrapper {
+  position: relative;
+  width: 12.2rem;
+  height: 12.2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid $white-color;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+
+    .imageOverlay {
+      opacity: 1;
+    }
+  }
+  &.active {
+    border: none;
+  }
+}
+
+.profileImage {
+  object-fit: cover;
+  border-radius: 50%;
+}
+.defaultImage {
+  padding: 0.5rem;
+}
+.imageOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.hiddenInput {
+  display: none;
+}
+
+.imageError {
+  color: #ff6b6b;
+  font-size: 12px;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.messageWrapper {
+  width: auto;
+  height: 12.4rem;
+  @include font("text-md");
+}
+.message {
+  padding-top: 0.9rem;
+  color: $gray-200;
+}
+
+.successMessage {
+  padding-top: 0.9rem;
+  color: $green-color;
 }
 .stepcontainer {
   position: fixed;
