@@ -8,6 +8,7 @@ import React, { useMemo, useRef, useState } from "react";
 import { HighlightText } from "./HighlightText";
 import Image from "next/image";
 
+// 비속어 방지 기능 필요
 export default function NicknamePage() {
   const [profileImage, setProfileImageFile] = useState<string | null>(null);
   const [imageError, setImageError] = useState("");
@@ -18,12 +19,15 @@ export default function NicknamePage() {
   // 예시 사용중인 닉네임 리스트
   const nicknames = useMemo(() => ["waggle", "테스트", "admin", "관리자"], []);
 
+  const trimmedNickname = nickname.trim();
+
   const { message, isValid } = useMemo(() => {
     const specialCharacterRegex = /[{}[\]/?.,;:|)*~`!^\-_+<>@#$%&\\=('"]/g;
+    const whitespaceRegex = /\s/g;
 
-    if (!nickname.trim()) {
+    if (!trimmedNickname) {
       return { message: "", isValid: false };
-    } else if (nickname.length < 2) {
+    } else if (trimmedNickname.length < 2) {
       return {
         message: (
           <>
@@ -33,7 +37,7 @@ export default function NicknamePage() {
         ),
         isValid: false,
       };
-    } else if (specialCharacterRegex.test(nickname)) {
+    } else if (specialCharacterRegex.test(trimmedNickname)) {
       return {
         message: (
           <>
@@ -43,7 +47,21 @@ export default function NicknamePage() {
         ),
         isValid: false,
       };
-    } else if (nicknames.includes(nickname)) {
+    } else if (whitespaceRegex.test(trimmedNickname)) {
+      return {
+        message: (
+          <>
+            <HighlightText color="#FF7777">* 공백</HighlightText>은 사용할 수
+            없어요
+          </>
+        ),
+        isValid: false,
+      };
+    } else if (
+      nicknames.some(
+        (used) => used.toLowerCase() === trimmedNickname.toLowerCase()
+      )
+    ) {
       return {
         message: (
           <>
@@ -64,7 +82,7 @@ export default function NicknamePage() {
         isValid: true,
       };
     }
-  }, [nickname, nicknames]);
+  }, [trimmedNickname, nicknames]);
 
   const handleImageClick = () => {
     fileInputRef.current?.click();
@@ -96,6 +114,10 @@ export default function NicknamePage() {
       }
     };
     reader.readAsDataURL(file);
+  };
+
+  const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNickname(e.target.value);
   };
 
   return (
@@ -138,14 +160,15 @@ export default function NicknamePage() {
             )}
           </div>
           <NicknameInputButton
-            onChange={(e) => setNickname(e.target.value.trimStart())}
+            value={nickname}
+            onChange={handleNicknameChange}
           ></NicknameInputButton>
           <div className={styles.messageWrapper}>
             {message && <div className={styles.message}> {message}</div>}
           </div>
           <ActionButton
             onClick={() => router.push("./location")}
-            disabled={!isValid || !nickname.trim()}
+            disabled={!isValid}
           >
             확인
           </ActionButton>
