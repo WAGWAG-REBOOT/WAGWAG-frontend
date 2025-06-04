@@ -1,3 +1,6 @@
+@use "../../../styles/abstracts/variables" as *;
+@use "../../../styles/abstracts/mixins" as *;
+
 .container {
   width: 100%;
   height: 100vh;
@@ -5,10 +8,80 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  text-align: center;
 }
-.stepcontainer {
+
+.wagLogo {
+  position: fixed;
+  top: 5rem;
+  left: 5rem;
+  width: 13.3rem;
+}
+
+.guideText {
+  @include font(title-sm);
+  padding-top: 17.5rem;
+  color: $white-color;
+  margin-bottom: 1.15rem;
+}
+
+.helperText {
+  @include font(text-md);
+  color: $gray-200;
+  .highlight {
+    color: $green-color;
+  }
+}
+
+.actionButton {
+  position: fixed;
+  bottom: 14.7rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.stepContainer {
   position: fixed;
   bottom: 7.5rem;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.grid {
+  justify-items: center;
+  align-items: center;
+  margin-top: 8.95rem;
+  margin-bottom: 9.3rem;
+}
+
+.categoryGrid {
+  width: 36.45rem;
+  height: 13.124rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 2.3rem;
+  row-gap: 3.2rem;
+}
+
+.categorySelectButton {
+  width: 100%;
+  height: 3.8rem;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+
+.lastRow {
+  display: flex;
+  gap: 2.3rem;
+  width: 36.45rem;
+  margin-top: 3.2rem;
+}
+
+.lastRow .categorySelectButton,
+.lastRow .button {
+  width: 100%;
 }
