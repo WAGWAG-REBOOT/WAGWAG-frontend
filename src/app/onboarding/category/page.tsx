@@ -6,20 +6,89 @@ import { ActionButton } from "@/components/atoms/Button/ActionButton";
 import { CategorySelectButton } from "@/components/atoms/Button/CategorySelectButton";
 import OnboardingStepIndicator from "@/components/atoms/OnboardingStep/StepIndicator";
 
+const CATEGORIES = [
+  "뷰티",
+  "운동",
+  "노래",
+  "게임",
+  "산책",
+  "음식",
+  "일상생활",
+  "타 지역 인기 와글",
+];
+
+const MAX_SELECT = 3;
+
+const FIRST_BUTTONS = CATEGORIES.slice(0, 6);
+const LAST_BUTTONS = CATEGORIES.slice(6);
+
 export default function CategoryPage() {
-  const [selected, setSelected] = useState(false);
+  const [selected, setSelected] = useState<string[]>([]);
   const router = useRouter();
+
+  const handleSelect = (category: string) => {
+    setSelected((prev) => {
+      if (prev.includes(category)) {
+        return prev.filter((item) => item !== category);
+      } else if (prev.length < MAX_SELECT) {
+        return [...prev, category];
+      } else {
+        return prev; // 3개 이상 선택 불가
+      }
+    });
+  };
+
   return (
     <>
+      <img className={styles.wagLogo} src="/wagwagLogo.svg" alt="WAGWAGLOGO" />
       <div className={styles.container}>
-        <CategorySelectButton
-          isSelected={selected}
-          onClick={() => setSelected((prev) => !prev)}
+        <h1 className={styles.guideText}>
+          waggle 님이 관심있는 주제를 알려주세요
+        </h1>
+        <h2 className={styles.helperText}>
+          <span className={styles.highlight}>* </span>
+          <span>내 취향에 맞는 와글을 더 편리하게 볼 수 있어요</span>
+        </h2>
+        <div className={styles.grid}>
+          <div className={styles.categoryGrid}>
+            {FIRST_BUTTONS.map((category) => (
+              <CategorySelectButton
+                key={category}
+                isSelected={selected.includes(category)}
+                onClick={() => handleSelect(category)}
+                disabled={
+                  selected.length >= MAX_SELECT && !selected.includes(category)
+                }
+                className={styles.categorySelectButton}
+              >
+                {category}
+              </CategorySelectButton>
+            ))}
+          </div>
+          <div className={styles.lastRow}>
+            {LAST_BUTTONS.map((category) => (
+              <CategorySelectButton
+                key={category}
+                isSelected={selected.includes(category)}
+                onClick={() => handleSelect(category)}
+                disabled={
+                  selected.length >= MAX_SELECT && !selected.includes(category)
+                }
+                className={styles.categorySelectButton}
+                wide={4.25}
+              >
+                {category}
+              </CategorySelectButton>
+            ))}
+          </div>
+        </div>
+        <ActionButton
+          onClick={() => router.push("../main")}
+          disabled={selected.length === 0 || selected.length > MAX_SELECT}
         >
-          운동
-        </CategorySelectButton>{" "}
-        <ActionButton onClick={() => router.push("../main")}>확인</ActionButton>
-        <div className={styles.stepcontainer}>
+          완료
+        </ActionButton>
+        <div className={styles.stepContainer}>
           <OnboardingStepIndicator />
         </div>
       </div>
