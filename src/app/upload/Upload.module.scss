@@ -42,21 +42,35 @@
   all: unset;
   @include font(text-input);
   padding-left: 2.4rem;
+  box-sizing: border-box;
   color: $white-color;
   width: 58.5rem;
   height: 6.4rem;
   border-radius: 1.1rem;
   border: 1px solid $gray-300;
+  &::placeholder {
+    color: $gray-300;
+  }
 }
 .wagtext {
   all: unset;
   @include font(text-input);
+  padding-top: 2.4rem;
   padding-left: 2.4rem;
+  box-sizing: border-box;
   color: $white-color;
   width: 58.5rem;
   height: 15.4rem;
   border-radius: 1.1rem;
   border: 1px solid $gray-300;
+  vertical-align: top;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+
+  &::placeholder {
+    color: $gray-300;
+  }
 }
 .actionButton {
   float: right;

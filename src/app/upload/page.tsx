@@ -31,9 +31,17 @@ export default function UploadPage() {
           </div>
           <div className={styles.inputContainer}>
             <h3 className={styles.smallTitle}>제목</h3>
-            <input className={styles.wagtitle}></input>
+            <input
+              className={styles.wagtitle}
+              placeholder="와글 제목을 입력해주세요"
+              maxLength={40}
+            ></input>
             <h3 className={styles.smallTitle}>설명</h3>
-            <input className={styles.wagtext}></input>
+            <textarea
+              className={styles.wagtext}
+              placeholder="시청자에게 이 와글에 대해 설명해 주세요"
+              maxLength={180}
+            ></textarea>
             <VisibilityToggleButton
               className={styles.toggleButton}
               isPublic={isPublic}
