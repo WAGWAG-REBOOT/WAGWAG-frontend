@@ -1,0 +1,67 @@
+@use "../../styles/abstracts/variables" as *;
+@use "../../styles/abstracts/mixins" as *;
+
+.container {
+  margin-left: 15rem;
+  width: calc(100% - 15rem);
+  height: 100vh;
+  background-image: url("/background/singlepageBackgroundImg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.uploadContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 3rem;
+}
+.videoContainer {
+  margin-right: 5.6rem;
+}
+.inputContainer {
+  margin-top: 13rem;
+}
+.wagLogo {
+  margin-bottom: 2.9rem;
+}
+.titleText {
+  @include font(text-lg);
+  color: $white-color;
+  margin-bottom: 1.3rem;
+}
+.smallTitle {
+  @include font(text-lg);
+  color: $white-color;
+  margin-bottom: 1.7rem;
+  margin-top: 2.2rem;
+}
+.wagtitle {
+  all: unset;
+  @include font(text-input);
+  padding-left: 2.4rem;
+  color: $white-color;
+  width: 58.5rem;
+  height: 6.4rem;
+  border-radius: 1.1rem;
+  border: 1px solid $gray-300;
+}
+.wagtext {
+  all: unset;
+  @include font(text-input);
+  padding-left: 2.4rem;
+  color: $white-color;
+  width: 58.5rem;
+  height: 15.4rem;
+  border-radius: 1.1rem;
+  border: 1px solid $gray-300;
+}
+.actionButton {
+  float: right;
+  margin-top: 5.3rem;
+}
+.toggleButton {
+  margin-top: 2rem;
+}
