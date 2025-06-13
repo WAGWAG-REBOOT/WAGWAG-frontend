@@ -22,7 +22,7 @@
   margin-right: 5.6rem;
 }
 .inputContainer {
-  margin-top: 13rem;
+  margin-top: 13.4rem;
 }
 .wagLogo {
   margin-bottom: 2.9rem;
@@ -35,8 +35,8 @@
 .smallTitle {
   @include font(text-lg);
   color: $white-color;
-  margin-bottom: 1.7rem;
-  margin-top: 2.2rem;
+  margin-bottom: 1.5rem;
+  margin-top: 2.3rem;
 }
 .wagtitle {
   all: unset;
@@ -77,4 +77,23 @@
 }
 .toggleButton {
   margin-top: 2rem;
+}
+.wagtitleCount,
+.wagtextCount {
+  @include font(text-sm);
+  margin-bottom: 0.7rem;
+  margin-right: 1.6rem;
+  color: $gray-300;
+  text-align: right;
+}
+.textWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.length {
+  color: $white-color;
+  &.limitReached {
+    color: $red-color;
+  }
 }

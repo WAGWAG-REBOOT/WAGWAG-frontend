@@ -28,6 +28,22 @@
 }
 .fileText {
   @include font(text-wag);
-  color: $gray-200;
   margin-top: 3.2rem;
+  display: flex;
+}
+.label {
+  color: $gray-200;
+}
+.name {
+  color: $white-color;
+  display: inline-block;
+  max-width: 15.2rem; // 너비는 적절히 조정
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+}
+.separator {
+  margin: 0 1rem;
+  color: $gray-200;
 }

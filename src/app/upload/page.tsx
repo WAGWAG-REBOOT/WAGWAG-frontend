@@ -1,13 +1,14 @@
 "use client";
 
 import { useMemo, useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import styles from "./Upload.module.scss";
 import { ActionButton } from "@/components/atoms";
 import { VisibilityToggleButton } from "@/components/atoms";
 import { VideoPreview } from "@/components/molecules/VideoPreview";
 
 export default function UploadPage() {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [isPublic, setIsPublic] = useState(true);
   const handleToggle = () => {
     setIsPublic((prev) => !prev);
@@ -31,7 +32,6 @@ export default function UploadPage() {
     return URL.createObjectURL(videoFile);
   }, [videoFile]);
 
-  // 객체 URL 메모리 해제 (중요!)
   useEffect(() => {
     return () => {
       if (videoSrc) {
@@ -39,10 +39,18 @@ export default function UploadPage() {
       }
     };
   }, [videoSrc]);
-  const fileName = videoFile?.name ?? "선택되지 않음";
+  const fileName = videoFile?.name ?? "";
+
+  const handleSubmit = () => {
+    console.log("영상 파일:", videoFile ?? "없음");
+    console.log("제목:", title);
+    console.log("설명:", description);
+    console.log("공개 여부:", isPublic ? "전체공개" : "비공개");
+  };
+
   return (
     <>
-      {/* 아래 div는 메뉴바 공간임 */}
+      {/* 아래 div는 임시로 메뉴바 공간을 넣었음 */}
       <div
         style={{
           width: "15rem",
@@ -69,24 +77,57 @@ export default function UploadPage() {
             />
           </div>
           <div className={styles.inputContainer}>
-            <h3 className={styles.smallTitle}>제목</h3>
+            <div className={styles.textWrapper}>
+              <h3 className={styles.smallTitle}>제목</h3>
+              <div className={styles.wagtitleCount}>
+                <span
+                  className={`${styles.length} ${
+                    title.length >= 40 ? styles.limitReached : ""
+                  }`}
+                >
+                  {title.length}
+                </span>{" "}
+                / 40
+              </div>
+            </div>
             <input
               className={styles.wagtitle}
               placeholder="와글 제목을 입력해주세요"
               maxLength={40}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             ></input>
-            <h3 className={styles.smallTitle}>설명</h3>
+            <div className={styles.textWrapper}>
+              <h3 className={styles.smallTitle}>설명</h3>
+              <div className={styles.wagtextCount}>
+                <span
+                  className={`${styles.length} ${
+                    description.length >= 180 ? styles.limitReached : ""
+                  }`}
+                >
+                  {description.length}
+                </span>{" "}
+                / 180
+              </div>
+            </div>
             <textarea
               className={styles.wagtext}
               placeholder="시청자에게 이 와글에 대해 설명해 주세요"
               maxLength={180}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             ></textarea>
             <VisibilityToggleButton
               className={styles.toggleButton}
               isPublic={isPublic}
               onClick={handleToggle}
             />
-            <ActionButton className={styles.actionButton}>완료</ActionButton>
+            <ActionButton
+              className={styles.actionButton}
+              onClick={handleSubmit}
+            >
+              완료
+            </ActionButton>
           </div>
         </div>
       </div>

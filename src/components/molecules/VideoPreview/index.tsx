@@ -34,7 +34,11 @@ export const VideoPreview = memo(
             <div className={styles.Videotext}>Upload video</div>
           )}
         </div>
-        <h2 className={styles.fileText}>파일 이름 | {fileName}</h2>
+        <h2 className={styles.fileText}>
+          <span className={styles.label}>파일 이름</span>
+          <span className={styles.separator}>|</span>
+          <span className={styles.name}>{fileName}</span>
+        </h2>
       </>
     );
   }
