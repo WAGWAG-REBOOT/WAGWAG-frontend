@@ -25,7 +25,9 @@ export const VisibilityToggleButton = ({
 
   return (
     <button
-      className={`${styles.button} ${className ?? ""}`}
+      className={`${styles.button} ${className ?? ""} ${
+        isPublic ? "" : styles.selected
+      }`}
       onClick={onClick}
       disabled={disabled}
     >
