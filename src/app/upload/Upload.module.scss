@@ -41,7 +41,7 @@
 .wagtitle {
   all: unset;
   @include font(text-input);
-  padding-left: 2.4rem;
+  padding: 2.4rem;
   box-sizing: border-box;
   color: $white-color;
   width: 58.5rem;
@@ -55,8 +55,7 @@
 .wagtext {
   all: unset;
   @include font(text-input);
-  padding-top: 2.4rem;
-  padding-left: 2.4rem;
+  padding: 2.4rem;
   box-sizing: border-box;
   color: $white-color;
   width: 58.5rem;
