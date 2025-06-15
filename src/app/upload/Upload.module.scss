@@ -1,0 +1,99 @@
+@use "../../styles/abstracts/variables" as *;
+@use "../../styles/abstracts/mixins" as *;
+
+.container {
+  margin-left: 15rem;
+  width: calc(100% - 15rem);
+  height: 100vh;
+  background-image: url("/background/singlepageBackgroundImg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.uploadContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 3rem;
+}
+.videoContainer {
+  margin-right: 5.6rem;
+}
+.inputContainer {
+  margin-top: 13.4rem;
+}
+.wagLogo {
+  margin-bottom: 2.9rem;
+}
+.titleText {
+  @include font(text-lg);
+  color: $white-color;
+  margin-bottom: 1.3rem;
+}
+.smallTitle {
+  @include font(text-lg);
+  color: $white-color;
+  margin-bottom: 1.5rem;
+  margin-top: 2.3rem;
+}
+.wagtitle {
+  all: unset;
+  @include font(text-input);
+  padding: 2.4rem;
+  box-sizing: border-box;
+  color: $white-color;
+  width: 58.5rem;
+  height: 6.4rem;
+  border-radius: 1.1rem;
+  border: 1px solid $gray-300;
+  &::placeholder {
+    color: $gray-300;
+  }
+}
+.wagtext {
+  all: unset;
+  @include font(text-input);
+  padding: 2.4rem;
+  box-sizing: border-box;
+  color: $white-color;
+  width: 58.5rem;
+  height: 15.4rem;
+  border-radius: 1.1rem;
+  border: 1px solid $gray-300;
+  vertical-align: top;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+
+  &::placeholder {
+    color: $gray-300;
+  }
+}
+.actionButton {
+  float: right;
+  margin-top: 5.3rem;
+}
+.toggleButton {
+  margin-top: 2rem;
+}
+.wagtitleCount,
+.wagtextCount {
+  @include font(text-sm);
+  margin-bottom: 0.7rem;
+  margin-right: 1.6rem;
+  color: $gray-300;
+  text-align: right;
+}
+.textWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.length {
+  color: $white-color;
+  &.limitReached {
+    color: $red-color;
+  }
+}

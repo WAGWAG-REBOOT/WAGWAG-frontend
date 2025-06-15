@@ -4,12 +4,14 @@ interface VisibilityToggleButtonProps {
   isPublic: boolean;
   onClick: () => void;
   disabled?: boolean;
+  className?: string;
 }
 
 export const VisibilityToggleButton = ({
   isPublic,
   onClick,
   disabled,
+  className,
 }: VisibilityToggleButtonProps) => {
   const iconSrc = isPublic ? "/unlockIcon.svg" : "/lockIcon.svg";
 
@@ -22,7 +24,13 @@ export const VisibilityToggleButton = ({
   // <VisibilityToggleButton isPublic={isPublic} onClick={handleToggle} />;
 
   return (
-    <button className={styles.button} onClick={onClick} disabled={disabled}>
+    <button
+      className={`${styles.button} ${className ?? ""} ${
+        isPublic ? "" : styles.selected
+      }`}
+      onClick={onClick}
+      disabled={disabled}
+    >
       <img
         className={styles.icon}
         src={iconSrc}
@@ -31,4 +39,4 @@ export const VisibilityToggleButton = ({
       <span className={styles.text}>{isPublic ? "전체공개" : "비공개"}</span>
     </button>
   );
-}
+};
