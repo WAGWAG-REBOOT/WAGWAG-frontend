@@ -7,12 +7,13 @@ import OnboardingStepIndicator from "@/components/atoms/OnboardingStep/StepIndic
 import React, { useMemo, useRef, useState } from "react";
 import { HighlightText } from "./HighlightText";
 import Image from "next/image";
+import { useUserSettingStore } from "@/stores";
 
 // 비속어 방지 기능 필요
 export default function NicknamePage() {
-  const [profileImage, setProfileImageFile] = useState<string | null>(null);
+  const { nickname, setNickname, profileImage, setProfileImage } =
+    useUserSettingStore();
   const [imageError, setImageError] = useState("");
-  const [nickname, setNickname] = useState("");
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -110,7 +111,7 @@ export default function NicknamePage() {
     reader.onload = (event) => {
       const result = event.target?.result;
       if (typeof result === "string") {
-        setProfileImageFile(result);
+        setProfileImage(result);
       }
     };
     reader.readAsDataURL(file);

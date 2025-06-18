@@ -1,14 +1,14 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import styles from "./Location.module.scss";
 import { SEOUL_REGIONS } from "@/constants/regions";
 import { ActionButton } from "@/components/atoms/Button/ActionButton";
 import OnboardingStepIndicator from "@/components/atoms/OnboardingStep/StepIndicator";
+import { useUserSettingStore } from "@/stores";
 
 export default function LocationPage() {
-  const [selectedGu, setSelectedGu] = useState<string | null>("강남구");
-  const [selectedDong, setSelectedDong] = useState<string | null>("개포1동");
+  const { selectedGu, selectedDong, setSelectedGu, setSelectedDong } =
+    useUserSettingStore();
   const dongList = selectedGu ? SEOUL_REGIONS[selectedGu] : [];
   const guList = Object.keys(SEOUL_REGIONS);
   const router = useRouter();
