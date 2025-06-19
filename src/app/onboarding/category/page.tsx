@@ -23,7 +23,7 @@ const FIRST_BUTTONS = CATEGORIES.slice(0, 6);
 const LAST_BUTTONS = CATEGORIES.slice(6);
 
 export default function CategoryPage() {
-  const { categories, setCategories } = useUserSettingStore();
+  const { categories, setCategories, reset } = useUserSettingStore();
   const router = useRouter();
 
   const handleSelect = (category: string) => {
@@ -36,6 +36,11 @@ export default function CategoryPage() {
         return prev; // 3개 이상 선택 불가
       }
     });
+  };
+
+  const handleComplete = () => {
+    reset(); // 상태 초기화
+    router.push("../main");
   };
 
   return (
@@ -85,7 +90,7 @@ export default function CategoryPage() {
           </div>
         </div>
         <ActionButton
-          onClick={() => router.push("../main")}
+          onClick={handleComplete}
           disabled={categories.length === 0 || categories.length > MAX_SELECT}
         >
           완료

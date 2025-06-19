@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface UserSettingState {
   nickname: string;
@@ -13,31 +14,47 @@ interface UserSettingState {
   setCategories: (
     categories: string[] | ((prev: string[]) => string[])
   ) => void;
+  reset: () => void;
 }
 
-export const useUserSettingStore = create<UserSettingState>((set) => ({
-  nickname: "",
-  setNickname: (nickname) => set({ nickname }),
-  profileImage: null,
-  setProfileImage: (image) => set({ profileImage: image }),
-  selectedGu: "강남구",
-  selectedDong: "개포1동",
+export const useUserSettingStore = create(
+  persist<UserSettingState>(
+    (set) => ({
+      nickname: "",
+      setNickname: (nickname) => set({ nickname }),
+      profileImage: null,
+      setProfileImage: (image) => set({ profileImage: image }),
+      selectedGu: "강남구",
+      selectedDong: "개포1동",
 
-  setSelectedGu: (gu) =>
-    set(() => ({
-      selectedGu: gu,
-      selectedDong: null,
-    })),
-  setSelectedDong: (dong) =>
-    set(() => ({
-      selectedDong: dong,
-    })),
-  categories: [],
-  setCategories: (categories) =>
-    set((state) => ({
-      categories:
-        typeof categories === "function"
-          ? categories(state.categories)
-          : categories,
-    })),
-}));
+      setSelectedGu: (gu) =>
+        set(() => ({
+          selectedGu: gu,
+          selectedDong: null,
+        })),
+      setSelectedDong: (dong) =>
+        set(() => ({
+          selectedDong: dong,
+        })),
+      categories: [],
+      setCategories: (categories) =>
+        set((state) => ({
+          categories:
+            typeof categories === "function"
+              ? categories(state.categories)
+              : categories,
+        })),
+      reset: () =>
+        set(() => ({
+          nickname: "",
+          profileImage: null,
+          selectedGu: null,
+          selectedDong: null,
+          categories: [],
+        })),
+    }),
+    {
+      name: "user-settings",
+    }
+  )
+);
