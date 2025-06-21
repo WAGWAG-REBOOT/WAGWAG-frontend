@@ -1,10 +1,10 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import styles from "./Category.module.scss";
 import { ActionButton } from "@/components/atoms/Button/ActionButton";
 import { CategorySelectButton } from "@/components/atoms/Button/CategorySelectButton";
 import OnboardingStepIndicator from "@/components/atoms/OnboardingStep/StepIndicator";
+import { useUserSettingStore } from "@/stores";
 
 const CATEGORIES = [
   "뷰티",
@@ -23,11 +23,11 @@ const FIRST_BUTTONS = CATEGORIES.slice(0, 6);
 const LAST_BUTTONS = CATEGORIES.slice(6);
 
 export default function CategoryPage() {
-  const [selected, setSelected] = useState<string[]>([]);
+  const { categories, setCategories, reset } = useUserSettingStore();
   const router = useRouter();
 
   const handleSelect = (category: string) => {
-    setSelected((prev) => {
+    setCategories((prev) => {
       if (prev.includes(category)) {
         return prev.filter((item) => item !== category);
       } else if (prev.length < MAX_SELECT) {
@@ -36,6 +36,11 @@ export default function CategoryPage() {
         return prev; // 3개 이상 선택 불가
       }
     });
+  };
+
+  const handleComplete = () => {
+    reset(); // 상태 초기화
+    router.push("../main");
   };
 
   return (
@@ -54,10 +59,11 @@ export default function CategoryPage() {
             {FIRST_BUTTONS.map((category) => (
               <CategorySelectButton
                 key={category}
-                isSelected={selected.includes(category)}
+                isSelected={categories.includes(category)}
                 onClick={() => handleSelect(category)}
                 disabled={
-                  selected.length >= MAX_SELECT && !selected.includes(category)
+                  categories.length >= MAX_SELECT &&
+                  !categories.includes(category)
                 }
                 className={styles.categorySelectButton}
               >
@@ -69,10 +75,11 @@ export default function CategoryPage() {
             {LAST_BUTTONS.map((category) => (
               <CategorySelectButton
                 key={category}
-                isSelected={selected.includes(category)}
+                isSelected={categories.includes(category)}
                 onClick={() => handleSelect(category)}
                 disabled={
-                  selected.length >= MAX_SELECT && !selected.includes(category)
+                  categories.length >= MAX_SELECT &&
+                  !categories.includes(category)
                 }
                 className={styles.categorySelectButton}
                 wide={4.25}
@@ -83,8 +90,8 @@ export default function CategoryPage() {
           </div>
         </div>
         <ActionButton
-          onClick={() => router.push("../main")}
-          disabled={selected.length === 0 || selected.length > MAX_SELECT}
+          onClick={handleComplete}
+          disabled={categories.length === 0 || categories.length > MAX_SELECT}
         >
           완료
         </ActionButton>
