@@ -1,10 +1,11 @@
 "use client";
 
-import { useMemo, useEffect, useRef, useState } from "react";
-import styles from "./Upload.module.scss";
-import { ActionButton } from "@/components/atoms";
-import { VisibilityToggleButton } from "@/components/atoms";
+import { useEffect, useMemo, useRef, useState } from "react";
+
+import { ActionButton, VisibilityToggleButton } from "@/components/atoms";
 import { VideoPreview } from "@/components/molecules/VideoPreview";
+
+import styles from "./Upload.module.scss";
 
 export default function UploadPage() {
   const [title, setTitle] = useState("");
@@ -50,15 +51,6 @@ export default function UploadPage() {
 
   return (
     <>
-      {/* 아래 div는 임시로 메뉴바 공간을 넣었음 */}
-      <div
-        style={{
-          width: "15rem",
-          height: "81rem",
-          backgroundColor: "#fff",
-          position: "fixed",
-        }}
-      ></div>
       <div className={styles.container}>
         <div className={styles.uploadContainer}>
           <div className={styles.videoContainer}>
@@ -81,9 +73,7 @@ export default function UploadPage() {
               <h3 className={styles.smallTitle}>제목</h3>
               <div className={styles.wagtitleCount}>
                 <span
-                  className={`${styles.length} ${
-                    title.length >= 40 ? styles.limitReached : ""
-                  }`}
+                  className={`${styles.length} ${title.length >= 40 ? styles.limitReached : ""}`}
                 >
                   {title.length}
                 </span>{" "}

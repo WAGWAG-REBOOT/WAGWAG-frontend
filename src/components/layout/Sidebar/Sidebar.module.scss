@@ -1,0 +1,58 @@
+@use "@/styles/abstracts/variables" as *;
+@use "@/styles/abstracts/mixins" as *;
+
+.sidebarContainer {
+  width: 150px;
+  height: 100vh;
+  background-color: $gray-600;
+  border-right: 1px solid $gray-400;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.upperContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.logoContainer {
+  margin-top: 42px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menuContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
+  gap: 56px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+
+  .a {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.profileContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 44px;
+  gap: 6.75px;
+}
+
+.profileNickname {
+  @include font(text-wag);
+  color: $gray-100;
+}

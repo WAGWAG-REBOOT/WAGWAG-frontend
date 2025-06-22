@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
+
 import "./globals.css";
 import localFont from "next/font/local";
+
+import Sidebar from "@/components/layout/Sidebar";
 import { Modal } from "@/components/molecules";
 
 const pretendard = localFont({
@@ -21,9 +24,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="kr" className={`${pretendard.variable}`}>
+    <html
+      lang="kr"
+      className={`${pretendard.variable}`}
+    >
       <body className={`${pretendard.variable}`}>
-        {children}
+        <div className="layout">
+          <Sidebar />
+          <main className="main">{children}</main>
+        </div>
         <Modal />
       </body>
     </html>
