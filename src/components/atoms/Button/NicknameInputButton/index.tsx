@@ -1,9 +1,8 @@
-import styles from "./NicknameInputButton.module.scss";
 import type { InputHTMLAttributes } from "react";
 
-interface NicknameInputProps extends InputHTMLAttributes<HTMLInputElement> {}
+import styles from "./NicknameInputButton.module.scss";
 
-export const NicknameInputButton = ({ ...props }: NicknameInputProps) => {
+export const NicknameInputButton = ({ ...props }: InputHTMLAttributes<HTMLInputElement>) => {
   return (
     <input
       className={styles.input}

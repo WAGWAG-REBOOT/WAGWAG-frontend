@@ -1,8 +1,10 @@
 "use client";
 
 // import styles from "./page.module.css";
-import { useModalStore } from "@/stores";
 import { ProfileMenuButton, VideoCard } from "@/components/molecules";
+
+import { useModalStore } from "@/stores";
+
 export default function Home() {
   const { openModal } = useModalStore();
 

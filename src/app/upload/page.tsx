@@ -1,10 +1,11 @@
 "use client";
 
-import { useMemo, useEffect, useRef, useState } from "react";
-import styles from "./Upload.module.scss";
-import { ActionButton } from "@/components/atoms";
-import { VisibilityToggleButton } from "@/components/atoms";
+import { useEffect, useMemo, useRef, useState } from "react";
+
+import { ActionButton, VisibilityToggleButton } from "@/components/atoms";
 import { VideoPreview } from "@/components/molecules/VideoPreview";
+
+import styles from "./Upload.module.scss";
 
 export default function UploadPage() {
   const [title, setTitle] = useState("");
@@ -81,9 +82,7 @@ export default function UploadPage() {
               <h3 className={styles.smallTitle}>제목</h3>
               <div className={styles.wagtitleCount}>
                 <span
-                  className={`${styles.length} ${
-                    title.length >= 40 ? styles.limitReached : ""
-                  }`}
+                  className={`${styles.length} ${title.length >= 40 ? styles.limitReached : ""}`}
                 >
                   {title.length}
                 </span>{" "}
