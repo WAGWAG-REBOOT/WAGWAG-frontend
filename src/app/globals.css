@@ -25,6 +25,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.layout {
+  display: flex;
+
+  .main {
+    flex: 1;
+  }
+}
+
 * {
   box-sizing: border-box;
   padding: 0;

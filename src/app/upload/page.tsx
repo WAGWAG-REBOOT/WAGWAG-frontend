@@ -51,15 +51,6 @@ export default function UploadPage() {
 
   return (
     <>
-      {/* 아래 div는 임시로 메뉴바 공간을 넣었음 */}
-      <div
-        style={{
-          width: "15rem",
-          height: "81rem",
-          backgroundColor: "#fff",
-          position: "fixed",
-        }}
-      ></div>
       <div className={styles.container}>
         <div className={styles.uploadContainer}>
           <div className={styles.videoContainer}>
