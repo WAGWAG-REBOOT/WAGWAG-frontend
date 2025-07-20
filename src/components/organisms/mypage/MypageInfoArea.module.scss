@@ -1,0 +1,24 @@
+.mypageInfoAreaContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 151px;
+}
+
+.userInfoContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 132px;
+  width: 552px;
+}
+
+.userContributionContainer {
+  width: 100%;
+}
+
+.userStatCardContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
