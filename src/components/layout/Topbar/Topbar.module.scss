@@ -1,0 +1,47 @@
+@use "@/styles/abstracts/variables" as *;
+@use "@/styles/abstracts/mixins" as *;
+
+.topbarContainer {
+  margin-top: 4rem;
+  display: flex;
+  height: 6rem;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 114rem;
+  padding: 1rem 2rem;
+  gap: 2rem;
+  border-radius: 15px;
+  border: 1px solid rgba($green-color, 0.3);
+  background-color: rgba($gray-600, 0.8);
+}
+
+.textGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+
+  svg {
+    // width: 3rem;
+    // height: 2rem;
+  }
+}
+
+.text {
+  display: flex;
+}
+
+.mainTitle {
+  @include font(text-button);
+  color: $white-color;
+}
+
+.smallTitle {
+  @include font(text-sm);
+  color: $white-color;
+}
+
+.waggleText {
+  @include font(text-sm);
+  margin-left: 1rem;
+  color: $green-color;
+}
