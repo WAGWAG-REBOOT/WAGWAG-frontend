@@ -8,6 +8,7 @@ export * from "./Button/ModalButton/index";
 export * from "./Typography/ModalTypography";
 export * from "./Profile/ProfileNickname";
 export * from "./Profile/ProfileImage";
+export * from "./Button/PositionButton";
 export * from "./Video/LikeCount";
 export * from "./Video/Nickname";
 export * from "./Video/ViewCount";
