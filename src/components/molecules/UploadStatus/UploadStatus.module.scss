@@ -1,0 +1,40 @@
+@use "@/styles/abstracts/variables" as *;
+@use "@/styles/abstracts/mixins" as *;
+
+.uploadStatusWrapper {
+  position: absolute;
+  top: 50%;
+  right: 4.2rem;
+  transform: translateY(-50%);
+  width: 30.4rem;
+  height: 73.4rem;
+  background: linear-gradient(180deg, rgba(8, 8, 8, 0.85) 47%, #080808 100%);
+  border: 0.15rem solid #fff;
+  border-radius: 1.8rem;
+}
+.header {
+  padding-top: 6rem;
+  flex-direction: column;
+  gap: 2.2rem;
+}
+.region {
+  @include font("text-wag");
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  color: $white-color;
+}
+.rank {
+  color: $green-color;
+}
+.dongName {
+  @include font("title-sm");
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $white-color;
+  padding-top: 2rem;
+}
