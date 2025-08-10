@@ -1,0 +1,63 @@
+@use "@/styles/abstracts/variables" as *;
+@use "@/styles/abstracts/mixins" as *;
+
+.topbarContainer {
+  margin: 0 auto;
+  margin-top: 4rem;
+  display: flex;
+  height: 6rem;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 114rem;
+  padding: 1rem 3rem;
+  gap: 2rem;
+  border-radius: 15px;
+  border: 1.5px solid rgba($green-color, 0.3);
+  background-color: rgba($gray-600, 0.8);
+}
+
+.textGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.verticalDivider {
+  width: 1.5px;
+  height: 1.5rem;
+  background-color: rgba($white-color, 0.3);
+}
+
+.text {
+  display: flex;
+  align-items: center;
+}
+
+.mainTitle {
+  @include font(text-button);
+  color: $white-color;
+}
+
+.smallTitle {
+  @include font(text-sm);
+  color: $white-color;
+}
+
+.waggleText {
+  @include font(text-sm);
+  margin-left: 1rem;
+  color: $green-color;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 22rem;
+}
+.waggleText--video,
+.waggleText--rank {
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.waggleText--keyword {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
