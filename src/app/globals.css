@@ -28,8 +28,9 @@ body {
 .layout {
   display: flex;
 
-  .main {
+  main {
     flex: 1;
+    margin-left: 150px;
   }
 }
 
