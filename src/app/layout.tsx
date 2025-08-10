@@ -31,7 +31,7 @@ export default function RootLayout({
       <body className={`${pretendard.variable}`}>
         <div className="layout">
           <Sidebar />
-          <main>{children}</main>
+          <main className="main">{children}</main>
         </div>
         <Modal />
       </body>

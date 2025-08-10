@@ -54,22 +54,19 @@ const Sidebar = () => {
           <Link href="/search">
             {pathname === "/search" ? <MainSearch /> : <MainSearchDisabled />}
           </Link>
-          <Link href="/mypage">
-            {pathname === "/mypage" ? <MainSetting /> : <MainSettingDisabled />}
+          <Link href="/setting">
+            {pathname === "/setting" ? <MainSetting /> : <MainSettingDisabled />}
           </Link>
         </div>
       </div>
 
-      <Link
-        href="/mypage"
-        className={styles.profileContainer}
-      >
+      <div className={styles.profileContainer}>
         <ProfileImage
           imageUrl="/profileDemo.svg"
           alt="profile"
         />
         <span className={styles.profileNickname}>wagwag</span>
-      </Link>
+      </div>
     </aside>
   );
 };
