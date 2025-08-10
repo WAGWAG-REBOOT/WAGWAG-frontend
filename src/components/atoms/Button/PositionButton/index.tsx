@@ -1,6 +1,8 @@
 import React from "react";
-import styles from "./PositionButton.module.scss";
+
 import { ButtonProps } from "../Button.types";
+
+import styles from "./PositionButton.module.scss";
 
 interface PositionButtonProps extends Omit<ButtonProps, "children"> {
   count: number | string;
@@ -9,22 +11,27 @@ interface PositionButtonProps extends Omit<ButtonProps, "children"> {
   children?: React.ReactNode;
 }
 
-function PositionButton({
+export const PositionButton = ({
   count,
   label,
   circleTextColor = "#57f98e",
   ...rest
-}: PositionButtonProps) {
+}: PositionButtonProps) => {
   const displayCount = typeof count === "number" && count > 99 ? "99+" : count;
 
   return (
-    <button className={styles.positionButton} {...rest} type="button">
-      <span className={styles.circle} style={{ color: circleTextColor }}>
+    <button
+      className={styles.positionButton}
+      {...rest}
+      type="button"
+    >
+      <span
+        className={styles.circle}
+        style={{ color: circleTextColor }}
+      >
         {displayCount}
       </span>
       <span className={styles.label}>{label}</span>
     </button>
   );
-}
-
-export default PositionButton;
+};
