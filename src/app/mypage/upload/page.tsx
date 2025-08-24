@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
 import Image from "next/image";
+import { useState, useEffect } from "react";
+
 import ArrowButton from "@/components/atoms/Button/ArrowButton";
 import SearchInput from "@/components/atoms/Input/SearchInput";
-import Sidebar from "@/components/layout/Sidebar";
+
 import styles from "./page.module.scss";
 
 interface VideoData {
@@ -32,6 +32,8 @@ export default function MyUploadPage() {
 
         // 모든 카테고리의 단어를 하나의 배열로 합치기
         const allWords: string[] = [];
+        // TODO: any 타입 대신 적절한 타입 사용
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         Object.values(data).forEach((category: any) => {
           if (category.words && Array.isArray(category.words)) {
             allWords.push(...category.words);
@@ -89,6 +91,7 @@ export default function MyUploadPage() {
     },
   ]);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     // 실제 검색 로직 구현
