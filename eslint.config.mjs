@@ -26,14 +26,6 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
 
-      "sort-imports": [
-        "warn",
-        {
-          ignoreDeclarationSort: true,
-          ignoreCase: true,
-        },
-      ],
-
       // Import 순서 관련 규칙
       "import/order": [
         "warn",
