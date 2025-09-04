@@ -1,7 +1,9 @@
-import styles from "./SearchInput.module.scss";
-import { SearchInputProps } from "../Input.types";
-import SearchSVG from "src/assets/images/Search.svg";
 import { useState, useRef, useEffect } from "react";
+import SearchSVG from "src/assets/images/Search.svg";
+
+import { SearchInputProps } from "../Input.types";
+
+import styles from "./SearchInput.module.scss";
 
 function SearchInput({
   inputSize,
@@ -12,6 +14,7 @@ function SearchInput({
   iconColor = "gray",
   suggestions = [],
   onSuggestionClick,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   showSuggestions = false,
   maxSuggestions = 5,
   value,

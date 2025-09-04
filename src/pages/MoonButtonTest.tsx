@@ -1,8 +1,9 @@
 import React from "react";
+
 // import ArrowButton from "../components/atoms/Button/ArrowButton";
-import SearchInput from "../components/atoms/Input/SearchInput";
-import PositionButton from "../components/atoms/Button/PositionButton";
+import { PositionButton } from "../components/atoms/Button/PositionButton";
 import TagButton from "../components/atoms/Button/TagButton";
+import SearchInput from "../components/atoms/Input/SearchInput";
 
 const ArrowButtonTest = () => {
   return (
@@ -72,7 +73,10 @@ const ArrowButtonTest = () => {
       </div>
       {/* TagButton 테스트 */}
       <div style={{ marginTop: 40 }}>
-        <TagButton fontSize="1.35rem" padding="0.9rem 2.25rem 0.95rem">
+        <TagButton
+          fontSize="1.35rem"
+          padding="0.9rem 2.25rem 0.95rem"
+        >
           더보기
         </TagButton>
       </div>
