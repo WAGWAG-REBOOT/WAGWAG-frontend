@@ -3,6 +3,7 @@ import Slider from "react-slick";
 
 import TagButton from "@/components/atoms/Button/TagButton";
 import { VideoCard } from "@/components/molecules";
+import UploadChart from "@/components/molecules/UploadChart";
 import UploadStatusHeader from "@/components/molecules/UploadStatusHeader";
 
 import styles from "./UploadStatus.module.scss";
@@ -56,7 +57,10 @@ function UploadStatus({ selectedAddr }: UploadStatusProps) {
           dongName={selectedAddr && selectedAddr.dongName}
         />
       </div>
-
+      <div className={styles.chartWrapper}>
+        <div className={styles.chartTitle}>와글 업로드 현황</div>
+        <UploadChart />
+      </div>
       <div className={styles.videoWrapper}>
         <div className={styles.title}>인기 와글</div>
         <TagButton

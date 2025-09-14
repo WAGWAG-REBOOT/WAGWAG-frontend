@@ -8,3 +8,4 @@ export * from "./Contibution";
 export * from "./UserProfileCard";
 export * from "./StatCard";
 export * from "./MapHeader";
+export * from "./UploadChart";
