@@ -1,4 +1,5 @@
 import { LikeCount, Nickname, ViewCount } from "@/components/atoms";
+
 import styles from "./VideoInfo.module.scss";
 
 interface VideoInfoProps {

@@ -1,0 +1,11 @@
+@use "@/styles/abstracts/variables" as *;
+
+.mapHeader {
+  position: absolute;
+  top: 3.5rem;
+  left: 3.8rem;
+  display: flex;
+  justify-content: space-between;
+  width: 86.4rem;
+  height: auto;
+}

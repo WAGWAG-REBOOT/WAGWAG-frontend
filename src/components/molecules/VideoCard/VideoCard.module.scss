@@ -3,8 +3,15 @@
 
 .videoCardContainer {
   position: relative;
-  width: 23.6rem;
   cursor: pointer;
+
+  &.large {
+    width: 23.6rem;
+  }
+
+  &.small {
+    width: 12rem;
+  }
 }
 .thumbnailContainer {
   position: relative;
@@ -13,5 +20,12 @@
 }
 .videoTitle {
   @include font("text-wag");
+  padding-top: 0.9rem;
+  color: $white-color;
+}
+.smallVideoInfo {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
   padding-top: 0.9rem;
 }

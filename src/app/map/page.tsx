@@ -1,11 +1,12 @@
 "use client";
 
 import Script from "next/script";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReactDOMServer from "react-dom/server";
 
 import { PositionButton } from "@/components/atoms";
-import { UploadStatus } from "@/components/molecules";
+import MapHeader from "@/components/molecules/MapHeader";
+import UploadStatus from "@/components/organisms/UploadStatus";
 
 import type { Feature, FeatureCollection, Polygon as GeoPolygon, MultiPolygon } from "geojson";
 
@@ -16,6 +17,32 @@ export default function MapPage() {
   const [selectedAddr, setSelectedAddr] = useState<{ region: string; dongName: string } | null>(
     null,
   );
+  const [mode, setMode] = useState<"popular" | "all">("popular");
+  const modeRef = useRef(mode);
+
+  useEffect(() => {
+    if (polygonRef.current) {
+      const currentPaths = polygonRef.current.getPaths();
+
+      const color = mode === "popular" ? "#57F98E" : "#C7C7C7";
+
+      polygonRef.current.setMap(null);
+
+      const updatedPolygon = new naver.maps.Polygon({
+        map: mapRef.current!,
+        paths: currentPaths,
+        strokeColor: color,
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: color,
+        fillOpacity: 0.4,
+        clickable: false,
+      });
+
+      polygonRef.current = updatedPolygon;
+    }
+    modeRef.current = mode;
+  }, [modeRef, mode]);
 
   const initializeMap = () => {
     const map = new naver.maps.Map("map", {
@@ -93,13 +120,14 @@ export default function MapPage() {
               polygonRef.current.setMap(null);
             }
 
+            const color = modeRef.current === "popular" ? "#57F98E" : "#C7C7C7";
             const hoverPolygon = new naver.maps.Polygon({
               map,
               paths,
-              strokeColor: "#57F98E",
+              strokeColor: color,
               strokeOpacity: 0.8,
               strokeWeight: 2,
-              fillColor: "#57F98E",
+              fillColor: color,
               fillOpacity: 0.4,
               clickable: false,
             });
@@ -134,18 +162,18 @@ export default function MapPage() {
         src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&submodules=geocoder`}
         onReady={initializeMap}
       />
-      <div style={{ display: "flex", width: "100%", height: "100vh" }}>
+      <div style={{ position: "relative", width: "100%", height: "100vh" }}>
         <div
           id="map"
-          style={{ flex: 1 }}
+          style={{ width: "100%", height: "100%" }}
         />
-        {selectedAddr && (
-          <UploadStatus
-            region={selectedAddr.region}
-            rank={2}
-            dongName={selectedAddr.dongName}
-          />
-        )}
+
+        <MapHeader
+          mode={mode}
+          setMode={setMode}
+        />
+
+        {selectedAddr && <UploadStatus selectedAddr={selectedAddr} />}
       </div>
     </>
   );

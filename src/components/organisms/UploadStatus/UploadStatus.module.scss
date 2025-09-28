@@ -1,0 +1,51 @@
+@use "@/styles/abstracts/variables" as *;
+@use "@/styles/abstracts/mixins" as *;
+
+.uploadStatusWrapper {
+  position: absolute;
+  top: 50%;
+  right: 4.2rem;
+  transform: translateY(-50%);
+  width: 30.4rem;
+  height: 73.4rem;
+  background: linear-gradient(180deg, rgba(8, 8, 8, 0.85) 47%, #080808 100%);
+  border: 0.15rem solid #fff;
+  border-radius: 1.8rem;
+}
+.header {
+  padding-top: 7.4rem;
+}
+
+.chartWrapper {
+  padding: 6.4rem 3.9rem 0;
+  color: #fff;
+}
+
+.chartTitle {
+  text-align: center;
+  font-size: 1.65rem;
+  font-weight: 700;
+  padding-bottom: 1.8rem;
+}
+
+.videoWrapper {
+  padding: 5rem 2.3rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.title {
+  color: $white-color;
+  @include font("text-button");
+}
+.slider {
+  padding: 0 2rem;
+
+  .slick-slide {
+    margin-right: 1.5rem;
+  }
+
+  .slick-slide:last-child {
+    margin-right: 0;
+  }
+}

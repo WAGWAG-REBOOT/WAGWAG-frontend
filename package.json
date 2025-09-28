@@ -18,7 +18,10 @@
     "next": "15.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-slick": "^0.31.0",
+    "recharts": "^3.2.0",
     "sass": "^1.86.3",
+    "slick-carousel": "^1.8.1",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
@@ -28,6 +31,7 @@
     "@types/node": "^20",
     "@types/react": "^19.1.4",
     "@types/react-dom": "^19",
+    "@types/react-slick": "^0.23.13",
     "eslint": "^9",
     "eslint-config-next": "15.3.0",
     "eslint-config-prettier": "^9.1.0",
