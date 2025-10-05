@@ -1,3 +1,3 @@
 export default function MypageLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+  return <div className="ml-[150px]">{children}</div>;
 }

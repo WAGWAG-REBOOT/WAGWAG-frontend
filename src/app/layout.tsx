@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
-import "./globals.css";
 import localFont from "next/font/local";
+import "./globals.css";
 
 import Sidebar from "@/components/layout/Sidebar";
 import { Modal } from "@/components/molecules";
