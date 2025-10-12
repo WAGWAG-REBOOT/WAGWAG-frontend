@@ -1,9 +1,9 @@
 import js from "@eslint/js";
-import globals from "globals";
+import importPlugin from "eslint-plugin-import";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
+import globals from "globals";
 import tseslint from "typescript-eslint";
-import importPlugin from "eslint-plugin-import";
 
 export default tseslint.config(
   { ignores: ["dist", "node_modules", "vite.config.ts"] },
@@ -21,23 +21,12 @@ export default tseslint.config(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
-      "react-refresh/only-export-components": [
-        "warn",
-        { allowConstantExport: true },
-      ],
 
       // Import 순서 관련 규칙
       "import/order": [
-        "warn",
+        "off",
         {
-          groups: [
-            "builtin",
-            "external",
-            "internal",
-            "parent",
-            "sibling",
-            "type",
-          ],
+          groups: ["builtin", "external", "internal", "parent", "sibling", "type"],
           pathGroups: [
             // React를 가장 먼저
             {
