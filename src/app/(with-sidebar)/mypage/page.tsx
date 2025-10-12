@@ -16,7 +16,7 @@ const userStat = {
   views: 1000000,
 } as const;
 
-export default function MyPage() {
+export default function Page() {
   return (
     <div className={styles.mypageContainer}>
       <MypageInfoArea

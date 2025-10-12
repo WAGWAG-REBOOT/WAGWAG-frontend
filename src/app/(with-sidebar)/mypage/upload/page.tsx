@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import ArrowButton from "@/components/atoms/Button/ArrowButton";
 import SearchInput from "@/components/atoms/Input/SearchInput";
@@ -19,7 +19,7 @@ interface VideoData {
   uploadDate: string;
 }
 
-export default function MyUploadPage() {
+export default function Page() {
   const [searchQuery, setSearchQuery] = useState("");
   const [koreanWords, setKoreanWords] = useState<string[]>([]);
 

@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 
-import "./globals.css";
 import localFont from "next/font/local";
+import "./globals.css";
 
-import Sidebar from "@/components/layout/Sidebar";
 import { Modal } from "@/components/molecules";
 
 const pretendard = localFont({
@@ -29,10 +28,7 @@ export default function RootLayout({
       className={`${pretendard.variable}`}
     >
       <body className={`${pretendard.variable}`}>
-        <div className="layout">
-          <Sidebar />
-          <main>{children}</main>
-        </div>
+        <main>{children}</main>
         <Modal />
       </body>
     </html>

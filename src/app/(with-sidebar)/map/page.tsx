@@ -10,7 +10,7 @@ import UploadStatus from "@/components/organisms/UploadStatus";
 
 import type { Feature, FeatureCollection, Polygon as GeoPolygon, MultiPolygon } from "geojson";
 
-export default function MapPage() {
+export default function Page() {
   const mapRef = useRef<naver.maps.Map | null>(null);
   const polygonRef = useRef<naver.maps.Polygon | null>(null);
   const markersRef = useRef<naver.maps.Marker[]>([]);
