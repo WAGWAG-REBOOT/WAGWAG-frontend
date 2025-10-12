@@ -1,4 +1,4 @@
-@import "@/styles/abstracts/index.scss";
+@use "@/styles/abstracts/index.scss" as *;
 
 .pageContent {
   width: 100%;

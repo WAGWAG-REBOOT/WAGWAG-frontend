@@ -3,7 +3,7 @@
 import Topbar from "@/components/layout/Topbar";
 // import { useRouter } from "next/navigation";
 
-export default function MainPage() {
+export default function Page() {
   // const router = useRouter();
   return (
     <Topbar
