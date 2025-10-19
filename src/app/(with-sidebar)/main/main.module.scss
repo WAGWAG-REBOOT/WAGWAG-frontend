@@ -1,0 +1,48 @@
+@use "@/styles/abstracts/variables" as *;
+@use "@/styles/abstracts/mixins" as *;
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 16.2rem 0 0 12rem;
+  //   margin: 6.2rem 0 0 7.5rem;
+}
+
+.titleSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.8rem;
+  padding-right: 12rem;
+
+  &:not(:first-of-type) {
+    margin-top: 12rem;
+  }
+}
+
+.waggleTitle {
+  @include font("title-lg");
+}
+
+.locationText {
+  color: $green-color;
+}
+
+.arrowButtons {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.videoCardList {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding-right: 12rem;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

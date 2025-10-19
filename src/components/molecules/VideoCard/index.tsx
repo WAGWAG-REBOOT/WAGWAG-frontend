@@ -37,7 +37,7 @@ export const VideoCard = ({
           src={thumbnailUrl}
           alt={title}
           width={size === "large" ? 236 : 122}
-          height={size === "large" ? 340 : 161}
+          height={size === "large" ? 312 : 161}
         />
       </div>
       {size === "small" && (
