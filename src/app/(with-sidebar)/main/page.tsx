@@ -1,7 +1,10 @@
 "use client";
 
+import { useState, useRef, useEffect } from "react";
 import Topbar from "@/components/layout/Topbar";
+import { CategoryButton } from "@/components/atoms/Button/CategoryButton";
 import { VideoCarouselSection } from "./VideoCarouselSection";
+import { ShortsCard } from "./ShortsCard";
 import styles from "./main.module.scss";
 // import { useRouter } from "next/navigation";
 
@@ -14,11 +17,54 @@ interface VideoCardData {
   title: string;
 }
 
+interface ShortsData {
+  id: number;
+  thumbnailUrl: string;
+  title: string;
+  nickname: string;
+  views: number;
+  category: string;
+}
+
+const categories = [
+  "전체",
+  "운동",
+  "뷰티",
+  "일상생활",
+  "게임",
+  "음식",
+  "산책",
+  "노래",
+  "타 지역 인기 와글",
+];
+
 export default function Page() {
   // const router = useRouter();
+  const [selectedCategory, setSelectedCategory] = useState("전체");
+  const [isTopbarVisible, setIsTopbarVisible] = useState(true);
+  const categoryRef = useRef<HTMLDivElement>(null);
 
   // TODO: 추후 사용자의 실제 위치 정보로 대체
   const userLocation = "서대문구 대현동";
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (categoryRef.current) {
+        const categoryTop = categoryRef.current.getBoundingClientRect().top;
+        // 카테고리가 화면 상단 150px 이내에 도달하면 Topbar 숨김
+        const shouldHide = categoryTop <= 150;
+        setIsTopbarVisible(!shouldHide);
+        console.log("categoryTop:", categoryTop, "shouldHide:", shouldHide); // 디버깅
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // 초기 상태 확인
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   // TODO: 추후 API에서 받아올 데이터
   const popularVideoCards: VideoCardData[] = [
@@ -171,23 +217,115 @@ export default function Page() {
     },
   ];
 
+  // TODO: 추후 API에서 받아올 카테고리별 숏츠 데이터
+  const shortsData: ShortsData[] = [
+    {
+      id: 1,
+      thumbnailUrl: "/nature.jpg",
+      title: "아침 러닝 코스 추천",
+      nickname: "러너",
+      views: 1500,
+      category: "운동",
+    },
+    {
+      id: 2,
+      thumbnailUrl: "/nature.jpg",
+      title: "홈트레이닝 루틴",
+      nickname: "헬스킹",
+      views: 2300,
+      category: "운동",
+    },
+    {
+      id: 3,
+      thumbnailUrl: "/nature.jpg",
+      title: "메이크업 팁 공유",
+      nickname: "뷰티퀸",
+      views: 3400,
+      category: "뷰티",
+    },
+    {
+      id: 4,
+      thumbnailUrl: "/nature.jpg",
+      title: "오늘의 일상 브이로그",
+      nickname: "일상이",
+      views: 1800,
+      category: "일상생활",
+    },
+    {
+      id: 5,
+      thumbnailUrl: "/nature.jpg",
+      title: "롤 하이라이트 모음",
+      nickname: "게이머",
+      views: 4500,
+      category: "게임",
+    },
+    {
+      id: 6,
+      thumbnailUrl: "/nature.jpg",
+      title: "맛집 먹방 투어",
+      nickname: "먹부림",
+      views: 5600,
+      category: "음식",
+    },
+    {
+      id: 7,
+      thumbnailUrl: "/nature.jpg",
+      title: "강아지 산책 일상",
+      nickname: "멍멍집사",
+      views: 2700,
+      category: "산책",
+    },
+    {
+      id: 8,
+      thumbnailUrl: "/nature.jpg",
+      title: "버스킹 현장",
+      nickname: "싱어송라이터",
+      views: 3900,
+      category: "노래",
+    },
+    {
+      id: 9,
+      thumbnailUrl: "/nature.jpg",
+      title: "강남 핫플레이스 탐방",
+      nickname: "서울러",
+      views: 6200,
+      category: "타 지역 인기 와글",
+    },
+    {
+      id: 10,
+      thumbnailUrl: "/nature.jpg",
+      title: "부산 해운대 일상",
+      nickname: "부산댁",
+      views: 5800,
+      category: "타 지역 인기 와글",
+    },
+  ];
+
+  // 선택된 카테고리에 따른 숏츠 필터링
+  const filteredShorts =
+    selectedCategory === "전체"
+      ? shortsData
+      : shortsData.filter((shorts) => shorts.category === selectedCategory);
+
   return (
     <>
-      <Topbar
-        location="서대문구 대현동"
-        data={{
-          videoCount: 43,
-          rank: 2,
-          hotKeyword: "버스킹",
-          topPosts: [
-            "이대 앞 휘낭시에 여기가 대박임",
-            "오늘자 홍제천 벚꽃길 분위기",
-            "요즘 유기견이 많이 보인다ㅠㅠ",
-            "이대입구 신상 빵집 오픈함",
-            "치킨 먹고 산책 루트 공유한다",
-          ],
-        }}
-      />
+      <div className={`${styles.topbarWrapper} ${!isTopbarVisible ? styles.hidden : ""}`}>
+        <Topbar
+          location="서대문구 대현동"
+          data={{
+            videoCount: 43,
+            rank: 2,
+            hotKeyword: "버스킹",
+            topPosts: [
+              "이대 앞 휘낭시에 여기가 대박임",
+              "오늘자 홍제천 벚꽃길 분위기",
+              "요즘 유기견이 많이 보인다ㅠㅠ",
+              "이대입구 신상 빵집 오픈함",
+              "치킨 먹고 산책 루트 공유한다",
+            ],
+          }}
+        />
+      </div>
       <div className={styles.mainContainer}>
         <VideoCarouselSection
           title="인기 와글"
@@ -200,6 +338,33 @@ export default function Page() {
           videoCards={realtimeVideoCards}
           locationText={userLocation}
         />
+
+        <div
+          className={styles.categoryContainer}
+          ref={categoryRef}
+        >
+          {categories.map((category) => (
+            <CategoryButton
+              key={category}
+              isSelected={selectedCategory === category}
+              onClick={() => setSelectedCategory(category)}
+            >
+              {category}
+            </CategoryButton>
+          ))}
+        </div>
+
+        <div className={styles.shortsSection}>
+          {filteredShorts.length > 0 && (
+            <ShortsCard
+              key={filteredShorts[0].id}
+              thumbnailUrl={filteredShorts[0].thumbnailUrl}
+              title={filteredShorts[0].title}
+              nickname={filteredShorts[0].nickname}
+              views={filteredShorts[0].views}
+            />
+          )}
+        </div>
       </div>
     </>
   );
