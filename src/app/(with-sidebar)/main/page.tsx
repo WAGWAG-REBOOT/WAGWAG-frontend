@@ -5,26 +5,12 @@ import Topbar from "@/components/layout/Topbar";
 import { CategoryButton } from "@/components/atoms/Button/CategoryButton";
 import { VideoCarouselSection } from "./VideoCarouselSection";
 import { ShortsCard } from "./ShortsCard";
+import { Footer } from "@/components/layout/Footer";
+import { Video, Shorts } from "@/types/entities";
+import HeartFillSvg from "@/assets/images/HeartFill.svg";
+import ShareSvg from "@/assets/images/Share.svg";
 import styles from "./main.module.scss";
 // import { useRouter } from "next/navigation";
-
-interface VideoCardData {
-  id: number;
-  thumbnailUrl: string;
-  nickname: string;
-  views: number;
-  likes: number;
-  title: string;
-}
-
-interface ShortsData {
-  id: number;
-  thumbnailUrl: string;
-  title: string;
-  nickname: string;
-  views: number;
-  category: string;
-}
 
 const categories = [
   "전체",
@@ -51,7 +37,6 @@ export default function Page() {
     const handleScroll = () => {
       if (categoryRef.current) {
         const categoryTop = categoryRef.current.getBoundingClientRect().top;
-        // 카테고리가 화면 상단 150px 이내에 도달하면 Topbar 숨김
         const shouldHide = categoryTop <= 150;
         setIsTopbarVisible(!shouldHide);
         console.log("categoryTop:", categoryTop, "shouldHide:", shouldHide); // 디버깅
@@ -59,7 +44,7 @@ export default function Page() {
     };
 
     window.addEventListener("scroll", handleScroll);
-    handleScroll(); // 초기 상태 확인
+    handleScroll();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -67,7 +52,7 @@ export default function Page() {
   }, []);
 
   // TODO: 추후 API에서 받아올 데이터
-  const popularVideoCards: VideoCardData[] = [
+  const popularVideoCards: Video[] = [
     {
       id: 1,
       thumbnailUrl: "/nature.jpg",
@@ -142,7 +127,7 @@ export default function Page() {
     },
   ];
 
-  const realtimeVideoCards: VideoCardData[] = [
+  const realtimeVideoCards: Video[] = [
     {
       id: 10,
       thumbnailUrl: "/nature.jpg",
@@ -218,7 +203,7 @@ export default function Page() {
   ];
 
   // TODO: 추후 API에서 받아올 카테고리별 숏츠 데이터
-  const shortsData: ShortsData[] = [
+  const shortsData: Shorts[] = [
     {
       id: 1,
       thumbnailUrl: "/nature.jpg",
@@ -301,7 +286,6 @@ export default function Page() {
     },
   ];
 
-  // 선택된 카테고리에 따른 숏츠 필터링
   const filteredShorts =
     selectedCategory === "전체"
       ? shortsData
@@ -356,15 +340,29 @@ export default function Page() {
 
         <div className={styles.shortsSection}>
           {filteredShorts.length > 0 && (
-            <ShortsCard
-              key={filteredShorts[0].id}
-              thumbnailUrl={filteredShorts[0].thumbnailUrl}
-              title={filteredShorts[0].title}
-              nickname={filteredShorts[0].nickname}
-              views={filteredShorts[0].views}
-            />
+            <>
+              <ShortsCard
+                key={filteredShorts[0].id}
+                thumbnailUrl={filteredShorts[0].thumbnailUrl}
+                title={filteredShorts[0].title}
+                nickname={filteredShorts[0].nickname}
+                views={filteredShorts[0].views}
+              />
+              <div className={styles.shortsActions}>
+                <div className={styles.actionItem}>
+                  <HeartFillSvg className={styles.actionIcon} />
+                  <span className={styles.actionText}>1.8K</span>
+                </div>
+                <div className={styles.actionItem}>
+                  <ShareSvg className={`${styles.actionIcon} ${styles.shareIcon}`} />
+                  <span className={styles.actionText}>37</span>
+                </div>
+              </div>
+            </>
           )}
         </div>
+
+        <Footer />
       </div>
     </>
   );

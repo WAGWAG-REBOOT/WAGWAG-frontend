@@ -83,6 +83,8 @@
 .shortsSection {
   display: flex;
   justify-content: center;
+  align-items: flex-end;
+  gap: 3rem;
   margin-top: 4.2rem;
   padding-right: 11rem;
 }
@@ -99,4 +101,41 @@
     height: 100%;
     object-fit: cover;
   }
+}
+
+.shortsActions {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  padding-bottom: 8rem;
+}
+
+.actionItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.actionIcon {
+  cursor: pointer;
+  flex-shrink: 0;
+
+  svg {
+    width: 2.8rem;
+    height: 2.8rem;
+    display: block;
+  }
+}
+
+.shareIcon {
+  svg {
+    width: 2.8rem;
+    height: 3.1rem;
+  }
+}
+
+.actionText {
+  @include font("text-md");
+  color: $white-color;
 }
