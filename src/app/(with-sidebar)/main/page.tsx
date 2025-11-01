@@ -29,25 +29,111 @@ export default function Page() {
   const [selectedCategory, setSelectedCategory] = useState("전체");
   const [isTopbarVisible, setIsTopbarVisible] = useState(true);
   const categoryRef = useRef<HTMLDivElement>(null);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isScrollingRef = useRef(false);
+  const lastScrollY = useRef(0);
+  const scrollVelocity = useRef(0);
+  const isAnimatingRef = useRef(false);
+  const animationFrameRef = useRef<number | null>(null);
 
   // TODO: 추후 사용자의 실제 위치 정보로 대체
   const userLocation = "서대문구 대현동";
 
   useEffect(() => {
+    const SNAP_THRESHOLD = 20; // 2rem = 20px
+    const SCROLL_DELAY = 100; // 스크롤이 멈춘 후 대기 시간 (ms)
+
+    const smoothSnapScroll = (targetY: number, currentY: number, velocity: number) => {
+      // 이미 애니메이션 중이면 취소
+      if (animationFrameRef.current !== null) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+
+      isAnimatingRef.current = true;
+      const distance = targetY - currentY;
+      const startTime = performance.now();
+
+      // 거리와 속도를 고려한 자연스러운 duration
+      const minDuration = 400;
+      const maxDuration = 1000;
+      const distanceFactor = Math.abs(distance) * 3;
+      const velocityFactor = Math.abs(velocity) * 50;
+      const duration = Math.min(
+        Math.max(minDuration, distanceFactor + velocityFactor),
+        maxDuration,
+      );
+
+      // 더 부드러운 감속 곡선
+      const easeOutCubic = (t: number): number => {
+        return 1 - Math.pow(1 - t, 3);
+      };
+
+      const animateScroll = (currentTime: number) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easeProgress = easeOutCubic(progress);
+
+        window.scrollTo(0, currentY + distance * easeProgress);
+
+        if (progress < 1) {
+          animationFrameRef.current = requestAnimationFrame(animateScroll);
+        } else {
+          isAnimatingRef.current = false;
+          animationFrameRef.current = null;
+        }
+      };
+
+      animationFrameRef.current = requestAnimationFrame(animateScroll);
+    };
+
     const handleScroll = () => {
       if (categoryRef.current) {
+        const currentScrollY = window.scrollY;
+        scrollVelocity.current = currentScrollY - lastScrollY.current;
+        lastScrollY.current = currentScrollY;
+
         const categoryTop = categoryRef.current.getBoundingClientRect().top;
         const shouldHide = categoryTop <= 150;
         setIsTopbarVisible(!shouldHide);
-        console.log("categoryTop:", categoryTop, "shouldHide:", shouldHide); // 디버깅
+
+        // 스크롤 중임을 표시
+        isScrollingRef.current = true;
+
+        // 이전 타임아웃 취소
+        if (scrollTimeoutRef.current) {
+          clearTimeout(scrollTimeoutRef.current);
+        }
+
+        // 스크롤이 멈춘 후 실행될 타임아웃 설정
+        scrollTimeoutRef.current = setTimeout(() => {
+          isScrollingRef.current = false;
+
+          // 스냅 포인트 계산
+          const currentCategoryTop = categoryRef.current?.getBoundingClientRect().top || 0;
+          const currentScrollPosition = window.scrollY;
+
+          // 카테고리가 화면 내에 있을 때 스냅 적용 (위아래 모두)
+          if (currentCategoryTop >= -100 && currentCategoryTop < 200) {
+            const targetScroll = currentScrollPosition + (currentCategoryTop - SNAP_THRESHOLD);
+
+            // 현재 위치에서 목표 지점까지 속도를 감속시키면서 부드럽게 이동
+            smoothSnapScroll(targetScroll, currentScrollPosition, scrollVelocity.current);
+          }
+        }, SCROLL_DELAY);
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      if (animationFrameRef.current !== null) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
     };
   }, []);
 
