@@ -206,9 +206,10 @@ export default function Page() {
   const shortsData: Shorts[] = [
     {
       id: 1,
-      thumbnailUrl: "/nature.jpg",
-      title: "아침 러닝 코스 추천",
-      nickname: "러너",
+      thumbnailUrl:
+        "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4",
+      title: "뒷산 동굴안엔 무엇이 살까",
+      nickname: "Lovelee",
       views: 1500,
       category: "운동",
     },
