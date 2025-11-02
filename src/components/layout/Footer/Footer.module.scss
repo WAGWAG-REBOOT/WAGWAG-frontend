@@ -1,0 +1,60 @@
+@use "@/styles/abstracts/variables" as *;
+@use "@/styles/abstracts/mixins" as *;
+
+.footerContainer {
+  border-top: 1px solid #2b2b2b;
+  margin-top: 12rem;
+  margin-bottom: 4rem;
+  padding-top: 3rem;
+  margin-right: 11rem;
+}
+
+.footerContent {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 11rem;
+}
+
+.footerColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.footerTitle {
+  @include font("text-md");
+  color: $white-color;
+  margin-bottom: 3rem;
+}
+
+.footerTextList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footerText {
+  @include font("text-sm");
+  color: $gray-200;
+  text-align: left;
+}
+
+.memberSection {
+  display: flex;
+  gap: 4rem;
+}
+
+.memberColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.memberLabel {
+  @include font("text-sm");
+  color: $gray-200;
+}
+
+.memberNames {
+  @include font("text-sm");
+  color: $gray-200;
+}
