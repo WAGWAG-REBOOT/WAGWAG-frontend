@@ -10,7 +10,7 @@ import { Video, Shorts } from "@/types/entities";
 import HeartFillSvg from "@/assets/images/HeartFill.svg";
 import ShareSvg from "@/assets/images/Share.svg";
 import styles from "./main.module.scss";
-// import { useRouter } from "next/navigation";
+import { useModalStore } from "@/stores/modalStore";
 
 const categories = [
   "전체",
@@ -25,7 +25,7 @@ const categories = [
 ];
 
 export default function Page() {
-  // const router = useRouter();
+  const { openModal } = useModalStore();
   const [selectedCategory, setSelectedCategory] = useState("전체");
   const [isTopbarVisible, setIsTopbarVisible] = useState(true);
   const categoryRef = useRef<HTMLDivElement>(null);
@@ -39,9 +39,28 @@ export default function Page() {
   // TODO: 추후 사용자의 실제 위치 정보로 대체
   const userLocation = "서대문구 대현동";
 
+  const handleShareClick = (shortsId: number) => {
+    const shareUrl = `${window.location.origin}/shorts/${shortsId}`;
+    openModal({
+      type: "share",
+      title: "와글 공유하기",
+      link: shareUrl,
+    });
+  };
+
   useEffect(() => {
-    const SNAP_THRESHOLD = 20; // 2rem = 20px
-    const SCROLL_DELAY = 100; // 스크롤이 멈춘 후 대기 시간 (ms)
+    // 스크롤 스냅 관련 상수
+    const CATEGORY_SNAP_TOP_OFFSET = 20; // 카테고리가 상단에서 떨어진 목표 거리 (2rem = 20px)
+    const SCROLL_STOP_DELAY_MS = 100; // 스크롤 멈춤 감지 지연 시간 (ms)
+    const SNAP_DETECTION_RANGE_TOP = -100; // 스냅 감지 범위 상단 (px)
+    const SNAP_DETECTION_RANGE_BOTTOM = 200; // 스냅 감지 범위 하단 (px)
+    const TOPBAR_HIDE_THRESHOLD = 150; // Topbar 숨김 기준 (px)
+
+    // 애니메이션 duration 설정
+    const MIN_ANIMATION_DURATION_MS = 400;
+    const MAX_ANIMATION_DURATION_MS = 1000;
+    const DISTANCE_FACTOR_MULTIPLIER = 3;
+    const VELOCITY_FACTOR_MULTIPLIER = 50;
 
     const smoothSnapScroll = (targetY: number, currentY: number, velocity: number) => {
       // 이미 애니메이션 중이면 취소
@@ -54,13 +73,11 @@ export default function Page() {
       const startTime = performance.now();
 
       // 거리와 속도를 고려한 자연스러운 duration
-      const minDuration = 400;
-      const maxDuration = 1000;
-      const distanceFactor = Math.abs(distance) * 3;
-      const velocityFactor = Math.abs(velocity) * 50;
+      const distanceFactor = Math.abs(distance) * DISTANCE_FACTOR_MULTIPLIER;
+      const velocityFactor = Math.abs(velocity) * VELOCITY_FACTOR_MULTIPLIER;
       const duration = Math.min(
-        Math.max(minDuration, distanceFactor + velocityFactor),
-        maxDuration,
+        Math.max(MIN_ANIMATION_DURATION_MS, distanceFactor + velocityFactor),
+        MAX_ANIMATION_DURATION_MS,
       );
 
       // 더 부드러운 감속 곡선
@@ -89,12 +106,22 @@ export default function Page() {
     const handleScroll = () => {
       if (categoryRef.current) {
         const currentScrollY = window.scrollY;
-        scrollVelocity.current = currentScrollY - lastScrollY.current;
-        lastScrollY.current = currentScrollY;
+        const velocity = currentScrollY - lastScrollY.current;
 
+        // Topbar 상태는 항상 업데이트 (애니메이션 중에도)
         const categoryTop = categoryRef.current.getBoundingClientRect().top;
-        const shouldHide = categoryTop <= 150;
+        const shouldHide = categoryTop <= TOPBAR_HIDE_THRESHOLD;
         setIsTopbarVisible(!shouldHide);
+
+        // 애니메이션 진행 중이면 나머지 로직 무시
+        // (애니메이션이 발생시킨 스크롤이므로)
+        if (isAnimatingRef.current) {
+          lastScrollY.current = currentScrollY;
+          return;
+        }
+
+        scrollVelocity.current = velocity;
+        lastScrollY.current = currentScrollY;
 
         // 스크롤 중임을 표시
         isScrollingRef.current = true;
@@ -113,13 +140,17 @@ export default function Page() {
           const currentScrollPosition = window.scrollY;
 
           // 카테고리가 화면 내에 있을 때 스냅 적용 (위아래 모두)
-          if (currentCategoryTop >= -100 && currentCategoryTop < 200) {
-            const targetScroll = currentScrollPosition + (currentCategoryTop - SNAP_THRESHOLD);
+          if (
+            currentCategoryTop >= SNAP_DETECTION_RANGE_TOP &&
+            currentCategoryTop < SNAP_DETECTION_RANGE_BOTTOM
+          ) {
+            const targetScroll =
+              currentScrollPosition + (currentCategoryTop - CATEGORY_SNAP_TOP_OFFSET);
 
             // 현재 위치에서 목표 지점까지 속도를 감속시키면서 부드럽게 이동
             smoothSnapScroll(targetScroll, currentScrollPosition, scrollVelocity.current);
           }
-        }, SCROLL_DELAY);
+        }, SCROLL_STOP_DELAY_MS);
       }
     };
 
@@ -137,6 +168,7 @@ export default function Page() {
     };
   }, []);
 
+  // ===== 임시 더미 데이터 (API 연동 시 삭제 예정) =====
   // TODO: 추후 API에서 받아올 데이터
   const popularVideoCards: Video[] = [
     {
@@ -372,6 +404,7 @@ export default function Page() {
       category: "타 지역 인기 와글",
     },
   ];
+  // ===== 더미 데이터 끝 =====
 
   const filteredShorts =
     selectedCategory === "전체"
@@ -440,7 +473,11 @@ export default function Page() {
                   <HeartFillSvg className={styles.actionIcon} />
                   <span className={styles.actionText}>1.8K</span>
                 </div>
-                <div className={styles.actionItem}>
+                <div
+                  className={styles.actionItem}
+                  onClick={() => handleShareClick(filteredShorts[0].id)}
+                  style={{ cursor: "pointer" }}
+                >
                   <ShareSvg className={`${styles.actionIcon} ${styles.shareIcon}`} />
                   <span className={styles.actionText}>37</span>
                 </div>

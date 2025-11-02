@@ -3,7 +3,7 @@ import PlaySvg from "@/assets/images/Play.svg";
 import PauseSvg from "@/assets/images/Pause.svg";
 import VolumeSvg from "@/assets/images/Volume.svg";
 import PlayGraySvg from "@/assets/images/PlayGray.svg";
-import styles from "./main.module.scss";
+import styles from "./ShortsCard.module.scss";
 
 interface ShortsCardProps {
   thumbnailUrl: string;
@@ -15,7 +15,7 @@ interface ShortsCardProps {
 export const ShortsCard: React.FC<ShortsCardProps> = ({ thumbnailUrl, title, nickname, views }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true); // 자동재생 정책: 초기에는 음소거
   const [volume, setVolume] = useState(100);
   const [showVolumeSlider, setShowVolumeSlider] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -34,18 +34,26 @@ export const ShortsCard: React.FC<ShortsCardProps> = ({ thumbnailUrl, title, nic
     return () => video.removeEventListener("timeupdate", updateProgress);
   }, []);
 
+  // 초기 볼륨 설정
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-
-    // Set initial volume
     video.volume = volume / 100;
+  }, [volume]);
+
+  // IntersectionObserver로 자동 재생/정지
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            video.play();
+            video.play().catch((err) => {
+              console.warn("Video autoplay failed:", err);
+              setIsPlaying(false);
+            });
             setIsPlaying(true);
           } else {
             video.pause();
@@ -58,7 +66,7 @@ export const ShortsCard: React.FC<ShortsCardProps> = ({ thumbnailUrl, title, nic
 
     observer.observe(video);
     return () => observer.disconnect();
-  }, [volume]);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -82,10 +90,14 @@ export const ShortsCard: React.FC<ShortsCardProps> = ({ thumbnailUrl, title, nic
 
     if (isPlaying) {
       video.pause();
+      setIsPlaying(false);
     } else {
-      video.play();
+      video.play().catch((err) => {
+        console.warn("Video play failed:", err);
+        setIsPlaying(false);
+      });
+      setIsPlaying(true);
     }
-    setIsPlaying(!isPlaying);
   };
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -123,6 +135,7 @@ export const ShortsCard: React.FC<ShortsCardProps> = ({ thumbnailUrl, title, nic
         className={styles.videoElement}
         loop
         playsInline
+        muted={isMuted}
       />
       <div className={styles.shortsViewCount}>
         <PlayGraySvg className={styles.viewIcon} />
