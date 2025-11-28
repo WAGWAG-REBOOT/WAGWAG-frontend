@@ -10,15 +10,9 @@
 
 .header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   padding: 0 10px;
-}
-
-.headerLeft {
-  display: flex;
-  align-items: center;
   gap: 15px;
 }
 
@@ -29,41 +23,61 @@
   margin: 0;
 }
 
-.searchContainer {
-  flex: 1;
-  max-width: 400px;
-  margin-left: 20px;
+// 정렬 & 필터 바
+.sortFilterBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 0 10px;
+  gap: 20px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
 }
 
-.searchInput {
-  width: 100%;
+.sortButtons {
+  display: flex;
+  gap: 12px;
+
+  // CategoryButton padding override for smaller buttons
+  button {
+    padding: 0.8rem 2rem !important;
+    font-size: 1.3rem;
+  }
+}
+
+.filterControls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex: 1;
+  justify-content: flex-end;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+.yearDropdown {
+  min-width: 140px;
+  max-width: 140px;
 }
 
 .videoList {
   display: flex;
   flex-direction: column;
-  gap: 30px;
-}
-
-.dateSection {
-  display: flex;
-  flex-direction: column;
   gap: 20px;
-}
-
-.dateHeader {
-  font-size: 18px;
-  font-weight: 500;
-  color: #888;
-  margin: 0;
-  padding: 0 10px;
 }
 
 .videoItem {
   display: flex;
   gap: 16px;
   padding: 16px;
-  // background-color: #111;
   border-radius: 8px;
   transition: background-color 0.2s ease;
 
@@ -78,7 +92,7 @@
 
 .thumbnail {
   width: 120px;
-  height: 90px;
+  height: 213px;
   border-radius: 8px;
   overflow: hidden;
   background-color: #333;
@@ -94,12 +108,12 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .videoTitle {
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   color: #fff;
   margin: 0;
   line-height: 1.4;
@@ -112,24 +126,13 @@
 .videoStats {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   color: #888;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .separator {
   color: #666;
-}
-
-.videoDescription {
-  font-size: 14px;
-  color: #aaa;
-  margin: 0;
-  line-height: 1.5;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 .videoActions {
@@ -147,7 +150,20 @@
   justify-content: center;
   width: 24px;
   height: 24px;
-  color: #888;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  &.locked {
+    filter: invert(72%) sepia(56%) saturate(422%) hue-rotate(78deg) brightness(100%) contrast(93%);
+  }
+}
+
+.menuContainer {
+  position: relative;
 }
 
 .menuButton {
@@ -167,6 +183,36 @@
   }
 }
 
+.menuDropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin-top: 4px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  min-width: 80px;
+}
+
+.menuOption {
+  padding: 10px 16px;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #2a2a2a;
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #333;
+  }
+}
+
 // 반응형 디자인
 @media (max-width: 768px) {
   .pageContent {
@@ -174,14 +220,7 @@
   }
 
   .header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-  }
-
-  .searchContainer {
-    width: 100%;
-    margin-left: 0;
+    margin-bottom: 16px;
   }
 
   .videoItem {
