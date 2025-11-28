@@ -2,9 +2,10 @@ import React from "react";
 import styles from "./ArrowButton.module.scss";
 import { ButtonProps } from "../Button.types";
 
-interface ArrowButtonProps extends ButtonProps {
+interface ArrowButtonProps extends Omit<ButtonProps, "children"> {
   arrowType?: "default" | "line";
   direction: "left" | "right" | "up" | "down";
+  children?: React.ReactNode;
 }
 
 // const getArrowRotation = (direction: string) => {

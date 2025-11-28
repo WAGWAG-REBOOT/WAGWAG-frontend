@@ -7,7 +7,6 @@
   background: #000000;
   border: 1px solid #e5e5e5;
   border-radius: 8px;
-  font-family: "Pretendard", sans-serif;
   cursor: pointer;
   user-select: none;
 
@@ -42,7 +41,7 @@
 
 .headerText {
   color: #ffffff;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 400;
   flex: 1;
   text-align: left;
@@ -50,7 +49,7 @@
 
 .chevron {
   color: #ffffff;
-  font-size: 12px;
+  font-size: 10px;
   transition: transform 0.2s ease;
   margin-left: 8px;
 }
@@ -66,8 +65,8 @@
 .dropdownContent {
   position: absolute;
   top: 100%;
-  left: 0;
-  right: 0;
+  left: -1px;
+  right: -1px;
   background: #000000;
   border: 1px solid #e5e5e5;
   border-top: none;
@@ -100,8 +99,8 @@
 .dropdownOption {
   padding: 12px 16px;
   color: #ffffff;
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 12px;
+  font-weight: 400;
   text-align: center;
   border-bottom: 1px solid #333333;
   transition: background-color 0.2s ease;
@@ -119,7 +118,7 @@
   &.selected {
     background: #2a2a2a;
     color: #ffffff;
-    font-weight: 600;
+    font-weight: 400;
   }
 }
 

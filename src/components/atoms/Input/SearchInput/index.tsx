@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import SearchSVG from "src/assets/images/Search.svg";
+import SearchSVG from "@/assets/images/Search.svg";
 
 import { SearchInputProps } from "../Input.types";
 
