@@ -1,0 +1,141 @@
+@use "@/styles/abstracts/variables" as *;
+@use "@/styles/abstracts/mixins" as *;
+
+.topbarWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  transition: transform 0.3s ease-out;
+  transform: translateY(0);
+
+  &.hidden {
+    transform: translateY(-15rem);
+  }
+}
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 16.2rem 0 0 11rem;
+  //   margin: 6.2rem 0 0 7.5rem;
+}
+
+.categoryContainer {
+  display: flex;
+  gap: 1.2rem;
+  margin-top: 20rem;
+  padding-right: 11rem;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+
+  button {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+}
+
+.titleSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.8rem;
+  padding-right: 11rem;
+
+  &:not(:first-of-type) {
+    margin-top: 12rem;
+  }
+}
+
+.waggleTitle {
+  @include font("title-lg");
+}
+
+.locationText {
+  color: $green-color;
+}
+
+.arrowButtons {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.videoCardList {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding-right: 11rem;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.shortsSection {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 3rem;
+  margin-top: 4.2rem;
+  padding-right: 11rem;
+}
+
+.shortsCard {
+  width: 38rem;
+  height: 68rem;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  cursor: pointer;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.shortsActions {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  padding-bottom: 8rem;
+}
+
+.actionItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.actionIcon {
+  cursor: pointer;
+  flex-shrink: 0;
+
+  svg {
+    width: 2.8rem;
+    height: 2.8rem;
+    display: block;
+  }
+}
+
+.shareIcon {
+  svg {
+    width: 2.8rem;
+    height: 3.1rem;
+  }
+}
+
+.actionText {
+  @include font("text-md");
+  color: $white-color;
+}

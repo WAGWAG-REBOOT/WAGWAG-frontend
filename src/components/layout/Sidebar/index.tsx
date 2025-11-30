@@ -21,17 +21,6 @@ import styles from "./Sidebar.module.scss";
 const Sidebar = () => {
   const pathname = usePathname();
 
-  const disabledSidebar =
-    pathname === "/" ||
-    pathname === "/login" ||
-    pathname === "/onboarding/category" ||
-    pathname === "/onboarding/location" ||
-    pathname === "/onboarding/nickname";
-
-  if (disabledSidebar) {
-    return null;
-  }
-
   return (
     <aside className={styles.sidebarContainer}>
       <div className={styles.upperContainer}>
