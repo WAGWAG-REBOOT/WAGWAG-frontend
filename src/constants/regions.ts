@@ -2,7 +2,6 @@ export const SEOUL_REGIONS: Record<string, string[]> = {
   강남구: [
     "개포1동",
     "개포2동",
-    "개포3동",
     "개포4동",
     "논현1동",
     "논현2동",
