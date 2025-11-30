@@ -66,8 +66,10 @@ const Topbar = ({ location, data }: TopbarProps) => {
       <TextGroup
         icon={<Star />}
         title="인기 와글"
-        value={`${currentPostIndex + 1}. ${topPosts[currentPostIndex]}`}
+        currentPost={`${currentPostIndex + 1}. ${topPosts[currentPostIndex]}`}
+        nextPost={`${((currentPostIndex + 1) % topPosts.length) + 1}. ${topPosts[(currentPostIndex + 1) % topPosts.length]}`}
         variant="post"
+        postKey={currentPostIndex}
       />
     </div>
   );
@@ -81,18 +83,52 @@ interface TextGroupProps {
   value?: string;
   isMain?: boolean;
   variant?: WaggleVariant;
+  currentPost?: string;
+  nextPost?: string;
+  postKey?: number;
 }
 
-const TextGroup = ({ icon, title, value, isMain = false, variant }: TextGroupProps) => (
-  <div className={styles.textGroup}>
-    {icon}
-    <div className={styles.text}>
-      <h2 className={isMain ? styles.mainTitle : styles.smallTitle}>{title}</h2>
-      {value && (
-        <h3 className={clsx(styles.waggleText, variant && styles[`waggleText--${variant}`])}>
-          {value}
-        </h3>
-      )}
+const TextGroup = ({
+  icon,
+  title,
+  value,
+  isMain = false,
+  variant,
+  currentPost,
+  nextPost,
+  postKey,
+}: TextGroupProps) => {
+  // 인기 와글용 3D 회전 처리
+  if (currentPost && nextPost) {
+    return (
+      <div className={styles.textGroup}>
+        {icon}
+        <div className={styles.text}>
+          <h2 className={isMain ? styles.mainTitle : styles.smallTitle}>{title}</h2>
+          <div
+            className={styles.rotateContainer}
+            key={postKey}
+          >
+            <span className={styles.rotateFront}>{currentPost}</span>
+            <span className={styles.rotateBack}>{nextPost}</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // 일반 텍스트 처리
+  return (
+    <div className={styles.textGroup}>
+      {icon}
+      <div className={styles.text}>
+        <h2 className={isMain ? styles.mainTitle : styles.smallTitle}>{title}</h2>
+        {value && (
+          <h3 className={clsx(styles.waggleText, variant && styles[`waggleText--${variant}`])}>
+            {value}
+          </h3>
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
+};

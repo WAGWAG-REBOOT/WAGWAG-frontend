@@ -10,7 +10,7 @@ import { Video, Shorts } from "@/types/entities";
 import HeartFillSvg from "@/assets/images/HeartFill.svg";
 import ShareSvg from "@/assets/images/Share.svg";
 import styles from "./main.module.scss";
-// import { useRouter } from "next/navigation";
+import { useModalStore } from "@/stores/modalStore";
 
 const categories = [
   "전체",
@@ -25,32 +25,150 @@ const categories = [
 ];
 
 export default function Page() {
-  // const router = useRouter();
+  const { openModal } = useModalStore();
   const [selectedCategory, setSelectedCategory] = useState("전체");
   const [isTopbarVisible, setIsTopbarVisible] = useState(true);
   const categoryRef = useRef<HTMLDivElement>(null);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isScrollingRef = useRef(false);
+  const lastScrollY = useRef(0);
+  const scrollVelocity = useRef(0);
+  const isAnimatingRef = useRef(false);
+  const animationFrameRef = useRef<number | null>(null);
 
   // TODO: 추후 사용자의 실제 위치 정보로 대체
   const userLocation = "서대문구 대현동";
 
+  const handleShareClick = (shortsId: number) => {
+    const shareUrl = `${window.location.origin}/shorts/${shortsId}`;
+    openModal({
+      type: "share",
+      title: "와글 공유하기",
+      link: shareUrl,
+    });
+  };
+
   useEffect(() => {
+    // 스크롤 스냅 관련 상수
+    const CATEGORY_SNAP_TOP_OFFSET = 20; // 카테고리가 상단에서 떨어진 목표 거리 (2rem = 20px)
+    const SCROLL_STOP_DELAY_MS = 100; // 스크롤 멈춤 감지 지연 시간 (ms)
+    const SNAP_DETECTION_RANGE_TOP = -100; // 스냅 감지 범위 상단 (px)
+    const SNAP_DETECTION_RANGE_BOTTOM = 200; // 스냅 감지 범위 하단 (px)
+    const TOPBAR_HIDE_THRESHOLD = 150; // Topbar 숨김 기준 (px)
+
+    // 애니메이션 duration 설정
+    const MIN_ANIMATION_DURATION_MS = 400;
+    const MAX_ANIMATION_DURATION_MS = 1000;
+    const DISTANCE_FACTOR_MULTIPLIER = 3;
+    const VELOCITY_FACTOR_MULTIPLIER = 50;
+
+    const smoothSnapScroll = (targetY: number, currentY: number, velocity: number) => {
+      // 이미 애니메이션 중이면 취소
+      if (animationFrameRef.current !== null) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+
+      isAnimatingRef.current = true;
+      const distance = targetY - currentY;
+      const startTime = performance.now();
+
+      // 거리와 속도를 고려한 자연스러운 duration
+      const distanceFactor = Math.abs(distance) * DISTANCE_FACTOR_MULTIPLIER;
+      const velocityFactor = Math.abs(velocity) * VELOCITY_FACTOR_MULTIPLIER;
+      const duration = Math.min(
+        Math.max(MIN_ANIMATION_DURATION_MS, distanceFactor + velocityFactor),
+        MAX_ANIMATION_DURATION_MS,
+      );
+
+      // 더 부드러운 감속 곡선
+      const easeOutCubic = (t: number): number => {
+        return 1 - Math.pow(1 - t, 3);
+      };
+
+      const animateScroll = (currentTime: number) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easeProgress = easeOutCubic(progress);
+
+        window.scrollTo(0, currentY + distance * easeProgress);
+
+        if (progress < 1) {
+          animationFrameRef.current = requestAnimationFrame(animateScroll);
+        } else {
+          isAnimatingRef.current = false;
+          animationFrameRef.current = null;
+        }
+      };
+
+      animationFrameRef.current = requestAnimationFrame(animateScroll);
+    };
+
     const handleScroll = () => {
       if (categoryRef.current) {
+        const currentScrollY = window.scrollY;
+        const velocity = currentScrollY - lastScrollY.current;
+
+        // Topbar 상태는 항상 업데이트 (애니메이션 중에도)
         const categoryTop = categoryRef.current.getBoundingClientRect().top;
-        const shouldHide = categoryTop <= 150;
+        const shouldHide = categoryTop <= TOPBAR_HIDE_THRESHOLD;
         setIsTopbarVisible(!shouldHide);
-        console.log("categoryTop:", categoryTop, "shouldHide:", shouldHide); // 디버깅
+
+        // 애니메이션 진행 중이면 나머지 로직 무시
+        // (애니메이션이 발생시킨 스크롤이므로)
+        if (isAnimatingRef.current) {
+          lastScrollY.current = currentScrollY;
+          return;
+        }
+
+        scrollVelocity.current = velocity;
+        lastScrollY.current = currentScrollY;
+
+        // 스크롤 중임을 표시
+        isScrollingRef.current = true;
+
+        // 이전 타임아웃 취소
+        if (scrollTimeoutRef.current) {
+          clearTimeout(scrollTimeoutRef.current);
+        }
+
+        // 스크롤이 멈춘 후 실행될 타임아웃 설정
+        scrollTimeoutRef.current = setTimeout(() => {
+          isScrollingRef.current = false;
+
+          // 스냅 포인트 계산
+          const currentCategoryTop = categoryRef.current?.getBoundingClientRect().top || 0;
+          const currentScrollPosition = window.scrollY;
+
+          // 카테고리가 화면 내에 있을 때 스냅 적용 (위아래 모두)
+          if (
+            currentCategoryTop >= SNAP_DETECTION_RANGE_TOP &&
+            currentCategoryTop < SNAP_DETECTION_RANGE_BOTTOM
+          ) {
+            const targetScroll =
+              currentScrollPosition + (currentCategoryTop - CATEGORY_SNAP_TOP_OFFSET);
+
+            // 현재 위치에서 목표 지점까지 속도를 감속시키면서 부드럽게 이동
+            smoothSnapScroll(targetScroll, currentScrollPosition, scrollVelocity.current);
+          }
+        }, SCROLL_STOP_DELAY_MS);
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      if (animationFrameRef.current !== null) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
     };
   }, []);
 
+  // ===== 임시 더미 데이터 (API 연동 시 삭제 예정) =====
   // TODO: 추후 API에서 받아올 데이터
   const popularVideoCards: Video[] = [
     {
@@ -206,9 +324,10 @@ export default function Page() {
   const shortsData: Shorts[] = [
     {
       id: 1,
-      thumbnailUrl: "/nature.jpg",
-      title: "아침 러닝 코스 추천",
-      nickname: "러너",
+      thumbnailUrl:
+        "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4",
+      title: "뒷산 동굴안엔 무엇이 살까",
+      nickname: "Lovelee",
       views: 1500,
       category: "운동",
     },
@@ -285,6 +404,7 @@ export default function Page() {
       category: "타 지역 인기 와글",
     },
   ];
+  // ===== 더미 데이터 끝 =====
 
   const filteredShorts =
     selectedCategory === "전체"
@@ -353,7 +473,11 @@ export default function Page() {
                   <HeartFillSvg className={styles.actionIcon} />
                   <span className={styles.actionText}>1.8K</span>
                 </div>
-                <div className={styles.actionItem}>
+                <div
+                  className={styles.actionItem}
+                  onClick={() => handleShareClick(filteredShorts[0].id)}
+                  style={{ cursor: "pointer" }}
+                >
                   <ShareSvg className={`${styles.actionIcon} ${styles.shareIcon}`} />
                   <span className={styles.actionText}>37</span>
                 </div>
