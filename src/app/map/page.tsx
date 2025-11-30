@@ -20,18 +20,16 @@ export default function MapPage() {
   const mapRef = useRef<naver.maps.Map | null>(null);
   const polygonRef = useRef<naver.maps.Polygon | null>(null);
   const markersRef = useRef<naver.maps.Marker[]>([]);
-  const markerClusterRef = useRef<InstanceType<typeof naver.maps.MarkerClustering> | null>(null);
   const polygonDataRef = useRef<PolygonData[]>([]);
+  const createdPolygonsRef = useRef<naver.maps.Polygon[]>([]);
+  const zoomTimerRef = useRef<number | null>(null);
+  const markerHTMLCache = useRef<Map<string, string>>(new Map());
 
   const [selectedAddr, setSelectedAddr] = useState<{ region: string; dongName: string } | null>(
     null,
   );
   const [mode, setMode] = useState<"popular" | "all">("popular");
   const modeRef = useRef(mode);
-
-  const markerHTMLCache = useRef<Map<string, string>>(new Map());
-  const createdPolygonsRef = useRef<naver.maps.Polygon[]>([]);
-  const zoomTimerRef = useRef<number | null>(null);
 
   const POLYGON_ACTIVE_ZOOM = 15;
 
@@ -40,7 +38,7 @@ export default function MapPage() {
       const paths = polygonRef.current.getPaths();
       const color = mode === "popular" ? "#57F98E" : "#C7C7C7";
       polygonRef.current.setMap(null);
-      const updated = new naver.maps.Polygon({
+      polygonRef.current = new naver.maps.Polygon({
         map: mapRef.current!,
         paths,
         strokeColor: color,
@@ -50,18 +48,54 @@ export default function MapPage() {
         fillOpacity: 0.4,
         clickable: false,
       });
-      polygonRef.current = updated;
     }
     modeRef.current = mode;
   }, [mode]);
 
+  const highlightPolygon = (paths: naver.maps.LatLng[][]) => {
+    if (polygonRef.current) polygonRef.current.setMap(null);
+    const color = modeRef.current === "popular" ? "#57F98E" : "#C7C7C7";
+    polygonRef.current = new naver.maps.Polygon({
+      map: mapRef.current!,
+      paths,
+      strokeColor: color,
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: color,
+      fillOpacity: 0.4,
+      clickable: false,
+    });
+  };
+
+  const handleZoomChange = (zoom: number) => {
+    const map = mapRef.current!;
+    if (!map) return;
+
+    // 마커 표시/숨김
+    markersRef.current.forEach((marker) => {
+      marker.setMap(zoom >= 14 ? map : null);
+    });
+
+    // 폴리곤 표시/숨김
+    createdPolygonsRef.current.forEach((poly) => {
+      poly.setMap(zoom >= POLYGON_ACTIVE_ZOOM ? map : null);
+    });
+  };
+
   const initializeMap = () => {
     const map = new naver.maps.Map("map", {
-      center: new naver.maps.LatLng(37.57565, 126.97688),
+      center: new naver.maps.LatLng(37.5665, 126.978),
       zoom: 15,
+      minZoom: 14,
+      maxZoom: 17,
+      maxBounds: new window.naver.maps.LatLngBounds( // 범위를 서울로 제한
+        new window.naver.maps.LatLng(37.413294, 126.734086),
+        new window.naver.maps.LatLng(37.715133, 127.269311),
+      ),
     });
     mapRef.current = map;
 
+    // 지도 클릭 시 highlight 제거
     naver.maps.Event.addListener(map, "click", () => {
       setSelectedAddr(null);
       if (polygonRef.current) {
@@ -84,14 +118,15 @@ export default function MapPage() {
           const dongName = parts[2] ?? "";
 
           const paths: naver.maps.LatLng[][] = [];
-
           if (type === "Polygon") {
             paths.push(coordinates[0].map(([lng, lat]) => new naver.maps.LatLng(lat, lng)));
           } else if (type === "MultiPolygon") {
             coordinates.forEach((polygon) => {
               paths.push(polygon[0].map(([lng, lat]) => new naver.maps.LatLng(lat, lng)));
             });
-          } else return;
+          }
+
+          polygonDataRef.current.push({ region, dongName, paths });
 
           // 중심점 계산
           const centroid = (() => {
@@ -101,6 +136,7 @@ export default function MapPage() {
             return new naver.maps.LatLng(lat, lng);
           })();
 
+          // HTML 캐시
           let html = markerHTMLCache.current.get(dongName);
           if (!html) {
             html = ReactDOMServer.renderToString(
@@ -122,97 +158,33 @@ export default function MapPage() {
             clickable: true,
           });
 
-          // 마커 클릭 시 패널 표시
           naver.maps.Event.addListener(marker, "click", () => {
-            setSelectedAddr({ region, dongName });
             highlightPolygon(paths);
+            setSelectedAddr({ region, dongName });
           });
 
           markers.push(marker);
-          polygonDataRef.current.push({ region, dongName, paths });
         });
 
         markersRef.current = markers;
 
-        // 마커 클러스터러
-        markerClusterRef.current = new naver.maps.MarkerClustering({
-          minClusterSize: 3,
-          maxZoom: 14,
-          map,
-          markers,
-          disableClickZoom: true,
-          gridSize: 120,
-        });
-
-        // 초기 줌 레벨에 따른 폴리곤 상태 설정
         handleZoomChange(map.getZoom());
 
-        naver.maps.Event.addListener(map, "zoom_changed", () => {
+        // 디바운스 250ms
+        window.naver.maps.Event.addListener(map, "zoom_changed", () => {
           if (zoomTimerRef.current) clearTimeout(zoomTimerRef.current);
           zoomTimerRef.current = window.setTimeout(() => {
             handleZoomChange(map.getZoom());
-          }, 120);
+          }, 250);
         });
       });
-  };
-
-  const highlightPolygon = (paths: naver.maps.LatLng[][]) => {
-    if (polygonRef.current) polygonRef.current.setMap(null);
-    const color = modeRef.current === "popular" ? "#57F98E" : "#C7C7C7";
-    const poly = new naver.maps.Polygon({
-      map: mapRef.current!,
-      paths,
-      strokeColor: color,
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      fillColor: color,
-      fillOpacity: 0.4,
-      clickable: false,
-    });
-    polygonRef.current = poly;
-  };
-
-  // 줌 변화에 따라 폴리곤 클릭 활성화/비활성화
-  const handleZoomChange = (zoom: number) => {
-    const map = mapRef.current!;
-    if (!map) return;
-
-    // 줌이 높을 때만 클릭 가능한 폴리곤 표시
-    if (zoom >= POLYGON_ACTIVE_ZOOM) {
-      if (createdPolygonsRef.current.length === 0) {
-        const polys = polygonDataRef.current.map((p) => {
-          const poly = new naver.maps.Polygon({
-            map,
-            paths: p.paths,
-            strokeOpacity: 0,
-            fillOpacity: 0,
-            clickable: true,
-          });
-
-          naver.maps.Event.addListener(poly, "click", () => {
-            highlightPolygon(p.paths);
-            setSelectedAddr({ region: p.region, dongName: p.dongName });
-          });
-
-          return poly;
-        });
-        createdPolygonsRef.current = polys;
-      }
-    } else {
-      createdPolygonsRef.current.forEach((p) => p.setMap(null));
-      createdPolygonsRef.current = [];
-      if (polygonRef.current) {
-        polygonRef.current.setMap(null);
-        polygonRef.current = null;
-      }
-    }
   };
 
   return (
     <>
       <Script
         strategy="afterInteractive"
-        src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&submodules=geocoder,markerclustering`}
+        src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&submodules=geocoder`}
         onReady={initializeMap}
       />
       <div style={{ position: "relative", width: "100%", height: "100vh" }}>
@@ -220,12 +192,10 @@ export default function MapPage() {
           id="map"
           style={{ width: "100%", height: "100%" }}
         />
-
         <MapHeader
           mode={mode}
           setMode={setMode}
         />
-
         {selectedAddr && <UploadStatus selectedAddr={selectedAddr} />}
       </div>
     </>

@@ -1,14 +1,6 @@
 "use client";
 import React from "react";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
 
 const data = [
   { time: "13:00", value: 12 },
@@ -38,7 +30,6 @@ function UploadChart() {
             tickFormatter={formatXAxis}
           />
           <YAxis hide />
-          <Tooltip labelFormatter={(label) => label.split(":")[0] + "시"} />
           <Line
             type="monotone"
             dataKey="value"
