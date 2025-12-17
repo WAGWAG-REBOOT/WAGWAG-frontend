@@ -21,6 +21,17 @@ declare global {
       redraw(): void;
     }
   }
+  interface Window {
+    MarkerClustering: new (options: {
+      map: naver.maps.Map;
+      markers: naver.maps.Marker[];
+      minClusterSize?: number;
+      maxZoom?: number;
+      gridSize?: number;
+      icons?: naver.maps.MarkerOptions["icon"][];
+      stylingFunction?: (clusterMarker: naver.maps.Marker, count: number) => void;
+    }) => unknown;
+  }
 }
 
 export {};
