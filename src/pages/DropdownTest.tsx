@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Dropdown, DropdownOption } from "../components/atoms";
+import { Dropdown } from "../components/atoms";
+import { DropdownOption } from "@/components/atoms/Dropdown";
 
 const DropdownTest = () => {
   const [selectedYear, setSelectedYear] = useState<number | undefined>();
   const [selectedLanguage, setSelectedLanguage] = useState<string | undefined>();
   const [selectedCategory, setSelectedCategory] = useState<string | undefined>();
-  const [selectedColor, setSelectedColor] = useState<string | undefined>();
+  // const [selectedColor, setSelectedColor] = useState<string | undefined>();
 
   // 연도 옵션
   const yearOptions: DropdownOption<number>[] = [
@@ -72,9 +73,7 @@ const DropdownTest = () => {
             placeholder="연도 선택"
           />
         </div>
-        <p style={{ fontSize: "14px", color: "#cccccc", marginBottom: "10px" }}>
-          • 타입: number
-        </p>
+        <p style={{ fontSize: "14px", color: "#cccccc", marginBottom: "10px" }}>• 타입: number</p>
         <p style={{ fontSize: "14px", color: "#cccccc" }}>
           • 현재 선택된 값: {selectedYear || "없음"}
         </p>
@@ -95,9 +94,7 @@ const DropdownTest = () => {
             placeholder="언어 선택"
           />
         </div>
-        <p style={{ fontSize: "14px", color: "#cccccc", marginBottom: "10px" }}>
-          • 타입: string
-        </p>
+        <p style={{ fontSize: "14px", color: "#cccccc", marginBottom: "10px" }}>• 타입: string</p>
         <p style={{ fontSize: "14px", color: "#cccccc" }}>
           • 현재 선택된 값: {selectedLanguage || "없음"}
         </p>
@@ -182,9 +179,7 @@ const DropdownTest = () => {
             placeholder="연도 선택 (긴 목록)"
           />
         </div>
-        <p style={{ fontSize: "14px", color: "#cccccc" }}>
-          • 최대 높이 300px, 스크롤 지원
-        </p>
+        <p style={{ fontSize: "14px", color: "#cccccc" }}>• 최대 높이 300px, 스크롤 지원</p>
       </div>
 
       <div style={{ marginBottom: "40px" }}>
@@ -224,9 +219,7 @@ const DropdownTest = () => {
           marginTop: "40px",
         }}
       >
-        <h3 style={{ marginBottom: "15px", fontSize: "16px", fontWeight: "600" }}>
-          테스트 가이드
-        </h3>
+        <h3 style={{ marginBottom: "15px", fontSize: "16px", fontWeight: "600" }}>테스트 가이드</h3>
         <ul style={{ fontSize: "14px", color: "#cccccc", lineHeight: "1.6" }}>
           <li>각 드롭다운을 클릭해서 열고 닫아보세요</li>
           <li>옵션을 선택해보세요</li>

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useMemo } from "react";
 import { useCombobox } from "downshift";
 import Fuse from "fuse.js";
 import styles from "./SearchInput.module.scss";
@@ -16,6 +16,7 @@ interface AdvancedSearchInputProps {
   onSuggestionClick?: (suggestion: string) => void;
   maxSuggestions?: number;
   // Fuse.js 옵션
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   fuseOptions?: any;
 }
 
@@ -42,17 +43,7 @@ function AdvancedSearchInput({
   // Fuse.js 인스턴스 생성
   const fuse = useMemo(() => new Fuse(suggestions, fuseOptions), [suggestions, fuseOptions]);
 
-  const {
-    isOpen,
-    getToggleButtonProps,
-    getLabelProps,
-    getMenuProps,
-    getInputProps,
-    highlightedIndex,
-    getItemProps,
-    selectedItem,
-    selectItem,
-  } = useCombobox({
+  const { isOpen, getMenuProps, getInputProps, highlightedIndex, getItemProps } = useCombobox({
     items: suggestions,
     onInputValueChange: ({ inputValue }) => {
       // 입력값이 변경될 때마다 Fuse.js로 검색
