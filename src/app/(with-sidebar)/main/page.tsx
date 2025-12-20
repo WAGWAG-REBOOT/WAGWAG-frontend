@@ -413,7 +413,7 @@ export default function Page() {
       : shortsData.filter((shorts) => shorts.category === selectedCategory);
 
   return (
-    <>
+    <div className={styles.pageContainer}>
       <div className={`${styles.topbarWrapper} ${!isTopbarVisible ? styles.hidden : ""}`}>
         <Topbar
           location="서대문구 대현동"
@@ -491,6 +491,6 @@ export default function Page() {
 
         <Footer />
       </div>
-    </>
+    </div>
   );
 }

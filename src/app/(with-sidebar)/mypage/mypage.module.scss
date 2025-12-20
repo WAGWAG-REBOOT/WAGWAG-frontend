@@ -1,15 +1,15 @@
 .mypageContainer {
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
+  max-width: 1440px;
   gap: 118.5px;
-  padding-top: 162.75px;
-  padding-left: 75px;
+  padding: 162.75px 0 100px 75px;
   min-width: 1080px;
 }
 
 .userInfoContainer {
   display: flex;
-  padding-right: 75px;
 }
 
 .carouselContainer {

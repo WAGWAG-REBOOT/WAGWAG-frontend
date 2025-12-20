@@ -1,10 +1,17 @@
 @use "@/styles/abstracts/variables" as *;
 @use "@/styles/abstracts/mixins" as *;
 
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
 .topbarWrapper {
   position: fixed;
   top: 0;
-  left: 0;
+  left: 11rem;
   right: 0;
   z-index: 1000;
   transition: transform 0.3s ease-out;

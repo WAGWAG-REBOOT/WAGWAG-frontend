@@ -1,5 +1,5 @@
 import styles from "./page.module.scss";
 
 export default function Page() {
-  return <div className={styles.pageContainer}>SearchPage</div>;
+  return <div className={styles.pageContainer}>SettingPage</div>;
 }

@@ -1,10 +1,10 @@
 "use client";
-import { useRouter } from "next/navigation";
-import styles from "./Category.module.scss";
 import { ActionButton } from "@/components/atoms/Button/ActionButton";
 import { CategorySelectButton } from "@/components/atoms/Button/CategorySelectButton";
 import OnboardingStepIndicator from "@/components/atoms/OnboardingStep/StepIndicator";
 import { useUserSettingStore } from "@/stores";
+import { useRouter } from "next/navigation";
+import styles from "./Category.module.scss";
 
 const CATEGORIES = [
   "뷰티",
@@ -45,11 +45,13 @@ export default function CategoryPage() {
 
   return (
     <>
-      <img className={styles.wagLogo} src="/wagwagLogo.svg" alt="WAGWAGLOGO" />
+      <img
+        className={styles.wagLogo}
+        src="/wagwagLogo.svg"
+        alt="WAGWAGLOGO"
+      />
       <div className={styles.container}>
-        <h1 className={styles.guideText}>
-          waggle 님이 관심있는 주제를 알려주세요
-        </h1>
+        <h1 className={styles.guideText}>waggle 님이 관심있는 주제를 알려주세요</h1>
         <h2 className={styles.helperText}>
           <span className={styles.highlight}>* </span>
           <span>내 취향에 맞는 와글을 더 편리하게 볼 수 있어요</span>
@@ -61,10 +63,7 @@ export default function CategoryPage() {
                 key={category}
                 isSelected={categories.includes(category)}
                 onClick={() => handleSelect(category)}
-                disabled={
-                  categories.length >= MAX_SELECT &&
-                  !categories.includes(category)
-                }
+                disabled={categories.length >= MAX_SELECT && !categories.includes(category)}
                 className={styles.categorySelectButton}
               >
                 {category}
@@ -77,10 +76,7 @@ export default function CategoryPage() {
                 key={category}
                 isSelected={categories.includes(category)}
                 onClick={() => handleSelect(category)}
-                disabled={
-                  categories.length >= MAX_SELECT &&
-                  !categories.includes(category)
-                }
+                disabled={categories.length >= MAX_SELECT && !categories.includes(category)}
                 className={styles.categorySelectButton}
                 wide={4.25}
               >
@@ -89,13 +85,14 @@ export default function CategoryPage() {
             ))}
           </div>
         </div>
-        <ActionButton
-          onClick={handleComplete}
-          disabled={categories.length === 0 || categories.length > MAX_SELECT}
-        >
-          완료
-        </ActionButton>
+
         <div className={styles.stepContainer}>
+          <ActionButton
+            onClick={handleComplete}
+            disabled={categories.length === 0 || categories.length > MAX_SELECT}
+          >
+            완료
+          </ActionButton>
           <OnboardingStepIndicator />
         </div>
       </div>

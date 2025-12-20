@@ -2,6 +2,7 @@
 
 import { MypageInfoArea } from "@/components/organisms/mypage";
 
+import { Footer } from "@/components/layout/Footer";
 import { Video } from "@/types/entities";
 import { useRouter } from "next/navigation";
 import { VideoCarouselSection } from "../main/VideoCarouselSection";
@@ -206,6 +207,8 @@ export default function Page() {
           onViewAllClick={handleLikedVideoAllClick}
         />
       </div>
+
+      <Footer />
     </div>
   );
 }
