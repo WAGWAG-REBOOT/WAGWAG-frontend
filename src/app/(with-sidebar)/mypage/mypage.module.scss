@@ -2,5 +2,18 @@
   display: flex;
   flex-direction: column;
   gap: 118.5px;
-  padding: 162.75px 75px;
+  padding-top: 162.75px;
+  padding-left: 75px;
+  min-width: 1080px;
+}
+
+.userInfoContainer {
+  display: flex;
+  padding-right: 75px;
+}
+
+.carouselContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 107.25px;
 }
