@@ -1,15 +1,16 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import Topbar from "@/components/layout/Topbar";
-import { CategoryButton } from "@/components/atoms/Button/CategoryButton";
-import { VideoCarouselSection } from "./VideoCarouselSection";
-import { ShortsCard } from "./ShortsCard";
-import { Footer } from "@/components/layout/Footer";
-import { Video, Shorts } from "@/types/entities";
 import HeartFillSvg from "@/assets/images/HeartFill.svg";
 import ShareSvg from "@/assets/images/Share.svg";
+import { CategoryButton } from "@/components/atoms/Button/CategoryButton";
+import { Footer } from "@/components/layout/Footer";
+import Topbar from "@/components/layout/Topbar";
+import { Shorts, Video } from "@/types/entities";
+import { useEffect, useRef, useState } from "react";
 import styles from "./main.module.scss";
+import { ShortsCard } from "./ShortsCard";
+import { VideoCarouselSection } from "./VideoCarouselSection";
+// import { useRouter } from "next/navigation";
 import { useModalStore } from "@/stores/modalStore";
 
 const categories = [
@@ -412,7 +413,7 @@ export default function Page() {
       : shortsData.filter((shorts) => shorts.category === selectedCategory);
 
   return (
-    <>
+    <div className={styles.pageContainer}>
       <div className={`${styles.topbarWrapper} ${!isTopbarVisible ? styles.hidden : ""}`}>
         <Topbar
           location="서대문구 대현동"
@@ -431,17 +432,19 @@ export default function Page() {
         />
       </div>
       <div className={styles.mainContainer}>
-        <VideoCarouselSection
-          title="인기 와글"
-          videoCards={popularVideoCards}
-          locationText={userLocation}
-        />
+        <div className={styles.carouselContainer}>
+          <VideoCarouselSection
+            title="인기 와글"
+            videoCards={popularVideoCards}
+            locationText={userLocation}
+          />
 
-        <VideoCarouselSection
-          title="실시간 와글"
-          videoCards={realtimeVideoCards}
-          locationText={userLocation}
-        />
+          <VideoCarouselSection
+            title="실시간 와글"
+            videoCards={realtimeVideoCards}
+            locationText={userLocation}
+          />
+        </div>
 
         <div
           className={styles.categoryContainer}
@@ -488,6 +491,6 @@ export default function Page() {
 
         <Footer />
       </div>
-    </>
+    </div>
   );
 }

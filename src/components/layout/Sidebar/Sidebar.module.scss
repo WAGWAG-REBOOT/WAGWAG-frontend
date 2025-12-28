@@ -4,6 +4,9 @@
 .sidebarContainer {
   width: 150px;
   height: 100vh;
+  max-height: 900px;
+  overflow-y: auto;
+  scrollbar-width: none;
   background-color: $gray-600;
   border-right: 1px solid $gray-400;
   display: flex;
@@ -36,6 +39,7 @@
   width: 100%;
   justify-content: center;
   align-items: center;
+  margin-bottom: 44px;
 
   .a {
     width: 32px;

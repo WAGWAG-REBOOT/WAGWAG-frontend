@@ -1,26 +1,28 @@
 "use client";
-import { useRouter } from "next/navigation";
-import styles from "./Location.module.scss";
-import { SEOUL_REGIONS } from "@/constants/regions";
 import { ActionButton } from "@/components/atoms/Button/ActionButton";
 import OnboardingStepIndicator from "@/components/atoms/OnboardingStep/StepIndicator";
+import { SEOUL_REGIONS } from "@/constants/regions";
 import { useUserSettingStore } from "@/stores";
+import { useRouter } from "next/navigation";
+import styles from "./Location.module.scss";
 
 export default function LocationPage() {
-  const { selectedGu, selectedDong, setSelectedGu, setSelectedDong } =
-    useUserSettingStore();
+  const { selectedGu, selectedDong, setSelectedGu, setSelectedDong } = useUserSettingStore();
   const dongList = selectedGu ? SEOUL_REGIONS[selectedGu] : [];
   const guList = Object.keys(SEOUL_REGIONS);
   const router = useRouter();
 
   return (
     <>
-      <img className={styles.wagLogo} src="/wagwagLogo.svg" alt="WAGWAGLOGO" />
+      <img
+        className={styles.wagLogo}
+        src="/wagwagLogo.svg"
+        alt="WAGWAGLOGO"
+      />
       <div className={styles.container}>
         <h1 className={styles.guideText}>waggle님의 지역을 설정해 주세요</h1>
         <h2 className={styles.helperText}>
-          <span className={styles.highlight}>* 내 지역</span>을 기반으로 와글을
-          볼 수 있어요
+          <span className={styles.highlight}>* 내 지역</span>을 기반으로 와글을 볼 수 있어요
         </h2>
 
         <div className={styles.columns01}>
@@ -73,15 +75,14 @@ export default function LocationPage() {
           </div>
         </div>
 
-        <ActionButton
-          className={styles.actionButton}
-          onClick={() => router.push("./category")}
-          disabled={!selectedGu || !selectedDong} // ✅ 둘 다 선택되지 않으면 비활성화
-        >
-          확인
-        </ActionButton>
-
         <div className={styles.stepcontainer}>
+          <ActionButton
+            onClick={() => router.push("./category")}
+            disabled={!selectedGu || !selectedDong} // ✅ 둘 다 선택되지 않으면 비활성화
+          >
+            확인
+          </ActionButton>
+
           <OnboardingStepIndicator />
         </div>
       </div>

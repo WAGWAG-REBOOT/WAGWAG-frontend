@@ -1,18 +1,17 @@
 "use client";
-import { useRouter } from "next/navigation";
-import styles from "./Nickname.module.scss";
-import { NicknameInputButton } from "@/components/atoms/Button/NicknameInputButton";
 import { ActionButton } from "@/components/atoms/Button/ActionButton";
+import { NicknameInputButton } from "@/components/atoms/Button/NicknameInputButton";
 import OnboardingStepIndicator from "@/components/atoms/OnboardingStep/StepIndicator";
+import { useUserSettingStore } from "@/stores";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useMemo, useRef, useState } from "react";
 import { HighlightText } from "./HighlightText";
-import Image from "next/image";
-import { useUserSettingStore } from "@/stores";
+import styles from "./Nickname.module.scss";
 
 // 비속어 방지 기능 필요
 export default function NicknamePage() {
-  const { nickname, setNickname, profileImage, setProfileImage } =
-    useUserSettingStore();
+  const { nickname, setNickname, profileImage, setProfileImage } = useUserSettingStore();
   const [imageError, setImageError] = useState("");
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -42,8 +41,7 @@ export default function NicknamePage() {
       return {
         message: (
           <>
-            <HighlightText color="#FF7777">* 특수문자</HighlightText>는
-            제거해주세요
+            <HighlightText color="#FF7777">* 특수문자</HighlightText>는 제거해주세요
           </>
         ),
         isValid: false,
@@ -52,22 +50,16 @@ export default function NicknamePage() {
       return {
         message: (
           <>
-            <HighlightText color="#FF7777">* 공백</HighlightText>은 사용할 수
-            없어요
+            <HighlightText color="#FF7777">* 공백</HighlightText>은 사용할 수 없어요
           </>
         ),
         isValid: false,
       };
-    } else if (
-      nicknames.some(
-        (used) => used.toLowerCase() === trimmedNickname.toLowerCase()
-      )
-    ) {
+    } else if (nicknames.some((used) => used.toLowerCase() === trimmedNickname.toLowerCase())) {
       return {
         message: (
           <>
-            <HighlightText color="#FF7777">* 이미 사용 중</HighlightText>인
-            닉네임입니다
+            <HighlightText color="#FF7777">* 이미 사용 중</HighlightText>인 닉네임입니다
           </>
         ),
         isValid: false,
@@ -124,16 +116,19 @@ export default function NicknamePage() {
   return (
     <>
       <div className={styles.wagLogo}>
-        <Image src="/wagwagLogo.svg" alt="WAGWAGLOGO" fill sizes="13.3rem" />
+        <Image
+          src="/wagwagLogo.svg"
+          alt="WAGWAGLOGO"
+          fill
+          sizes="13.3rem"
+        />
       </div>
       <div className={styles.container}>
         <h1 className={styles.guideText}>닉네임을 설정해 주세요</h1>
         <div className={styles.wrapper}>
           <div className={styles.profileImageContainer}>
             <div
-              className={`${styles.profileImageWrapper} ${
-                profileImage ? styles.active : ""
-              }`}
+              className={`${styles.profileImageWrapper} ${profileImage ? styles.active : ""}`}
               onClick={handleImageClick}
             >
               <Image
@@ -141,9 +136,7 @@ export default function NicknamePage() {
                 alt="프로필 이미지"
                 fill
                 sizes="13.2rem"
-                className={
-                  profileImage ? styles.profileImage : styles.defaultImage
-                }
+                className={profileImage ? styles.profileImage : styles.defaultImage}
               />
               <div className={styles.imageOverlay}>
                 <span>변경</span>
@@ -156,9 +149,7 @@ export default function NicknamePage() {
               onChange={handleImageChange}
               className={styles.hiddenInput}
             />
-            {imageError && (
-              <div className={styles.imageError}>• {imageError}</div>
-            )}
+            {imageError && <div className={styles.imageError}>• {imageError}</div>}
           </div>
           <NicknameInputButton
             value={nickname}
@@ -167,14 +158,15 @@ export default function NicknamePage() {
           <div className={styles.messageWrapper}>
             {message && <div className={styles.message}> {message}</div>}
           </div>
+        </div>
+
+        <div className={styles.stepcontainer}>
           <ActionButton
             onClick={() => router.push("./location")}
             disabled={!isValid}
           >
             확인
           </ActionButton>
-        </div>
-        <div className={styles.stepcontainer}>
           <OnboardingStepIndicator />
         </div>
       </div>

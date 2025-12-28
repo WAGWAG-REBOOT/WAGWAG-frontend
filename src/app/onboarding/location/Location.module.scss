@@ -46,6 +46,10 @@
   bottom: 7.5rem;
   left: 50%;
   transform: translateX(-50%);
+  gap: 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .columns01 {
