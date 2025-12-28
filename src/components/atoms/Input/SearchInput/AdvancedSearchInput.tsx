@@ -1,8 +1,8 @@
-import React, { useState, useMemo } from "react";
 import { useCombobox } from "downshift";
 import Fuse from "fuse.js";
-import styles from "./SearchInput.module.scss";
+import React, { useMemo } from "react";
 import SearchSVG from "src/assets/images/Search.svg";
+import styles from "./SearchInput.module.scss";
 
 interface AdvancedSearchInputProps {
   inputSize: "small" | "large";
@@ -16,6 +16,7 @@ interface AdvancedSearchInputProps {
   onSuggestionClick?: (suggestion: string) => void;
   maxSuggestions?: number;
   // Fuse.js 옵션
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   fuseOptions?: any;
 }
 
@@ -44,14 +45,14 @@ function AdvancedSearchInput({
 
   const {
     isOpen,
-    getToggleButtonProps,
-    getLabelProps,
+    // getToggleButtonProps, // TODO: 토글 버튼 사용 시 주석 해제
+    // getLabelProps, // TODO: 레이블 사용 시 주석 해제
     getMenuProps,
     getInputProps,
     highlightedIndex,
     getItemProps,
-    selectedItem,
-    selectItem,
+    // selectedItem, // TODO: 선택된 아이템 사용 시 주석 해제
+    // selectItem, // TODO: 아이템 선택 함수 사용 시 주석 해제
   } = useCombobox({
     items: suggestions,
     onInputValueChange: ({ inputValue }) => {
@@ -80,6 +81,7 @@ function AdvancedSearchInput({
 
     const results = fuse.search(inputValue);
     return results.slice(0, maxSuggestions).map((result) => result.item);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValue, fuse, maxSuggestions]);
 
   return (

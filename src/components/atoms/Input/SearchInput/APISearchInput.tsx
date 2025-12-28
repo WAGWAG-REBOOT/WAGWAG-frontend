@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useMemo } from "react";
 import { useCombobox } from "downshift";
-import Fuse from "fuse.js";
-import styles from "./SearchInput.module.scss";
+// import Fuse from "fuse.js"; // TODO: Fuse.js 사용 시 주석 해제
+import React, { useEffect, useState } from "react";
 import SearchSVG from "src/assets/images/Search.svg";
+import styles from "./SearchInput.module.scss";
 
 interface APISearchInputProps {
   inputSize: "small" | "large";
@@ -17,6 +17,7 @@ interface APISearchInputProps {
   apiKey?: string;
   searchType?: "dictionary" | "thesaurus" | "synonyms" | "custom";
   maxSuggestions?: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   fuseOptions?: any;
 }
 
@@ -83,15 +84,15 @@ function APISearchInput({
   iconColor = "gray",
   placeholder = "검색어를 입력하세요...",
   apiEndpoint,
-  apiKey,
+  // apiKey, // TODO: API 키 사용 시 주석 해제
   searchType = "dictionary",
   maxSuggestions = 5,
-  fuseOptions = {
-    threshold: 0.3,
-    distance: 100,
-    includeScore: true,
-    keys: [""],
-  },
+  // fuseOptions = { // TODO: Fuse.js 사용 시 주석 해제
+  //   threshold: 0.3,
+  //   distance: 100,
+  //   includeScore: true,
+  //   keys: [""],
+  // },
 }: APISearchInputProps) {
   const iconSize = inputSize === "small" ? 12 : 18;
   const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -161,24 +162,24 @@ function APISearchInput({
     }, 300); // 300ms 디바운스
 
     return () => clearTimeout(timeoutId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValue, searchType, apiEndpoint]);
 
-  // Fuse.js 인스턴스 생성
-  const fuse = useMemo(() => new Fuse(suggestions, fuseOptions), [suggestions, fuseOptions]);
+  // Fuse.js 인스턴스 생성 (향후 사용 예정)
+  // const fuse = useMemo(() => new Fuse(suggestions, fuseOptions), [suggestions, fuseOptions]);
 
-  const { isOpen, getMenuProps, getInputProps, highlightedIndex, getItemProps, selectedItem } =
-    useCombobox({
-      items: suggestions,
-      onInputValueChange: ({ inputValue: newValue }) => {
-        setInputValue(newValue || "");
-      },
-      onSelectedItemChange: ({ selectedItem }) => {
-        if (selectedItem) {
-          console.log("선택된 검색어:", selectedItem);
-          setInputValue(selectedItem);
-        }
-      },
-    });
+  const { isOpen, getMenuProps, getInputProps, highlightedIndex, getItemProps } = useCombobox({
+    items: suggestions,
+    onInputValueChange: ({ inputValue: newValue }) => {
+      setInputValue(newValue || "");
+    },
+    onSelectedItemChange: ({ selectedItem }) => {
+      if (selectedItem) {
+        console.log("선택된 검색어:", selectedItem);
+        setInputValue(selectedItem);
+      }
+    },
+  });
 
   // 검색 결과 (API에서 가져온 결과를 그대로 사용)
   const searchResults = suggestions.slice(0, maxSuggestions);
