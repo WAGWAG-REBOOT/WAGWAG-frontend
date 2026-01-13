@@ -9,7 +9,9 @@
     "lint": "next lint",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "prepare": "husky && husky install",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.74.0",
@@ -48,7 +50,12 @@
     "stylelint-scss": "^6.12.0",
     "typescript": "^5",
     "typescript-eslint": "^8.34.1",
-    "webpack": "^5.99.7"
+    "webpack": "^5.99.7",
+    "storybook": "^10.1.11",
+    "@storybook/nextjs": "^10.1.11",
+    "@storybook/addon-a11y": "^10.1.11",
+    "@storybook/addon-docs": "^10.1.11",
+    "eslint-plugin-storybook": "^10.1.11"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
