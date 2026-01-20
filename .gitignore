@@ -44,3 +44,5 @@ next-env.d.ts
 .cursorrules
 .vscode
 aapi.yaml
+*storybook.log
+storybook-static
